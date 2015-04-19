@@ -27,6 +27,13 @@ body {
 #main fieldset p{
 	color:black;
 }
+#main form fieldset div label{
+	color:black;
+} 
+#main form fieldset div input{
+	color:black;
+} 
+
 a#menu {
 	background-color: orange;
     padding: 10px 20px;

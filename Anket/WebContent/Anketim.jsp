@@ -1,24 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%
-	String username =(String)session.getAttribute("username");
-	String email = null;
-	if(username==null || username.equals("")){
-		response.sendRedirect("KullaniciGiris.jsp");
-	}else{
-		email = (String)session.getAttribute("useremail");
-	}
-%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="Site.css" rel="stylesheet" >
 <title>Insert title here</title>
 </head>
 <body>
-	<ul id = "menu">
+<ul id = "menu">
 		<li><a href='Profil.jsp'>Profil</a></li>
 		<li><a href='AnketOlustur.jsp'>Anket Oluştur</a></li>
 		<li><a href='AnketDoldur.jsp'>Anket Doldur</a></li>
@@ -29,8 +18,6 @@
 		<h1>Profilim</h1>
 		<fieldset>
 			<legend>Kullanici Bilgileri</legend>
-				<p >Kullanıcı Adı : <%out.print(username); %></p>
-				<p >Email : <%  out.print(email);%></p>
 		</fieldset>
 		<br />
 		
