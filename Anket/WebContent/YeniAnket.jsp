@@ -86,7 +86,7 @@ if(username==null || username.equals("")){
 		<li><a href='CikisYap.jsp'>Çıkış Yap</a></li>
 	</ul>
 	<div id="#main">
-		<form name="anketolustur" action="AnketGirisOlustur.jsp"  method="GET" class ="pure-form pure-form-aligned" >
+		<form name="anketolustur" action="AnketGirisOlustur.jsp"  method="POST" class ="pure-form pure-form-aligned" >
 			
 		<fieldset>
 			<legend>Anket Bilgileri</legend>
@@ -116,7 +116,8 @@ if(username==null || username.equals("")){
 	        				if(listKategori.get(i).getAltKategori()!=null){
 		        				for( int j=0;j<listKategori.get(i).getAltKategori().size();j++){
 		        					Kategoriler kat  = listKategori.get(i).getAltKategori().get(j);
-		        					out.print("<input type='checkbox' name='kategori' value="+kat.getId()+">"+kat.getKategoriAdi()+"<br>");
+		        					out.print("\t\t\t");
+		        					out.print(" <input type='checkbox' name='kategori' value="+kat.getId()+">"+kat.getKategoriAdi()+"<br>");
 			        	
 		        				}
 		        				

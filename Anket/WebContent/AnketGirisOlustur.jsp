@@ -9,13 +9,14 @@
 String anketadi = request.getParameter("anketadi");
 
 if(anketadi==null || anketadi.equals("")){
-	response.sendRedirect("AnketOlustur.jsp");
+	response.sendRedirect("YeniAnket.jsp");
 	return;
 }
 String baslangictarihi = request.getParameter("baslangictarih");
 String bitistarihi = request.getParameter("bitistarihi");
 String ipKullanim = request.getParameter("ipkullanim");
 String[] str = request.getParameterValues("kategori");
+
 int[] kategoriid = new int[str.length];
 if(str!=null)
 for(int i =0;i<str.length;i++){
@@ -25,7 +26,6 @@ Connection con = null;
 try{
 	Class.forName("com.mysql.jdbc.Driver"); 
 	con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
-	//String query = "insert into Anket (KullaniciID,AnketAdi,KoyulmaTarihi,BitisTarihi,IPKullanimIzın) VALUES(?,?,?,?,?)";
 	String query ="insert into Anket (KullaniciID,AnketAdi,IPKullanimIzin) VALUES("+(Integer)(session.getAttribute("userid"))+",'"+anketadi+"',"+Boolean.parseBoolean(ipKullanim)+")";
 	Statement st = con.prepareStatement(query);
 	/*st.setInt(1,1);//(Integer)(session.getAttribute("userid"))
@@ -43,7 +43,6 @@ try{
         if (generatedKeys.next()) {
             num = generatedKeys.getLong(1);
         }
-        
 	String queryKategori = "insert into AnketKategori (AnketID,KategoriID) VALUES(?,?)";
 	PreparedStatement st2 = con.prepareStatement(queryKategori);
 	st2.setLong(1, num);
@@ -51,7 +50,7 @@ try{
 		st2.setInt(2, kategoriid[i]);
 		st2.execute();
 	}
-	response.sendRedirect("Anketim.jsp?anketid="+num);
+	response.sendRedirect("AnketSorular.jsp?anketid="+num);
 	}
 	
 }catch(ClassNotFoundException ex){

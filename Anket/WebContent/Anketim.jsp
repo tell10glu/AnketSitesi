@@ -9,7 +9,7 @@
 <body>
 <ul id = "menu">
 		<li><a href='Profil.jsp'>Profil</a></li>
-		<li><a href='AnketOlustur.jsp'>Anket Oluştur</a></li>
+		<li><a href='YeniAnket.jsp'>Anket Oluştur</a></li>
 		<li><a href='AnketDoldur.jsp'>Anket Doldur</a></li>
 		
 		<li><a href='CikisYap.jsp'>Çıkış Yap</a></li>
