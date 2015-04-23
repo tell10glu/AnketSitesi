@@ -2,6 +2,7 @@ package yapiPackage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -76,7 +77,8 @@ public class Kullanici {
 			
 			if(rs.next()) { 
 				String pas = rs.getString(3);
-				if(pas.equals(password)){
+				pas = getPasswordHash(pas);
+				if(pas.equals(pas)){
 					kullanici = new Kullanici(rs.getInt("id"), kadi, pas,rs.getInt("Rol"),rs.getString("Email"));
 				}else{
 					throw new Exception("Kullanici Sifresi Hatali!");
@@ -98,9 +100,34 @@ public class Kullanici {
 		}
 		return kullanici ;
 	}
-	public static boolean kullaniciEkle(){
+	public static void kullaniciEkle(String kullaniciAdi,String sifre,String email,int rol) throws Exception{
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			String query = "insert into Kullanici (KullaniciAdi,Sifre,Email,Rol) VALUES(?,?,?,?)";
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, kullaniciAdi);
+			st.setString(2,getPasswordHash(sifre));
+			st.setString(3,email);
+			st.setInt(4,rol);
+			st.execute();
+			
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.getMessage();
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 		
-		return true;
+		
 	}
 	public static ArrayList<Kullanici> kullaniciListesi(){
 		ArrayList<Kullanici> alist = new ArrayList<Kullanici>();
@@ -130,5 +157,22 @@ public class Kullanici {
 		}
 		
 		return alist;
+	}
+	public static String getPasswordHash(String str){
+		long total = 0;
+		for(int i =str.length()-1;i>=0;i--){
+			Character cr = str.charAt(i);
+			int karakter = (int)cr;
+			
+			int sayi = 1;
+			for(int j=0;j<i;j++){
+				sayi *=61;
+			}
+			karakter *=sayi;
+			total += karakter;
+		}
+		return String.valueOf(total);
+		
+		
 	}
 }

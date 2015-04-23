@@ -6,6 +6,7 @@ String username = request.getParameter("username");
 String password = request.getParameter("password");
 if(username!=null && password!=null){
 	try{
+		
 		Kullanici kul = Kullanici.kullaniciGiris(username, password);
 		if(kul==null){
 			out.println("Kullanici Giris Hatali!");
@@ -15,17 +16,14 @@ if(username!=null && password!=null){
 			session.setAttribute("userid",kul.getKullaniciId());
 			session.setAttribute("userrole",kul.getRolId());
 			session.setAttribute("useremail",kul.getEmail());
-			System.out.println(username);
-			System.out.println(password);
-			System.out.println(kul.getKullaniciId());
-			System.out.println(kul.getRolId());
 			response.sendRedirect("Profil.jsp");
 		}
 	}catch(Exception ex){
+		
 		out.println(ex.getMessage());	
 	}
 }else{
-	if(session.getAttribute("username")!=null || !session.getAttribute("username").equals("")){
+	if(session.getAttribute("username")!=null ){
 		response.sendRedirect("Profil.jsp");	
 	}
 }
