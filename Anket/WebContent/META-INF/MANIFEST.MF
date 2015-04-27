@@ -1,9 +1,3 @@
-<<<<<<< HEAD
 Manifest-Version: 1.0
 Class-Path: 
 
-=======
-Manifest-Version: 1.0
-Class-Path: 
-
->>>>>>> 2ebebd68b9405bdc4557c7d3a410260548f0aea8

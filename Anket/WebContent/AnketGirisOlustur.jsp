@@ -7,10 +7,7 @@
 <%@page import="java.util.Enumeration"%>
 <%
 String anketadi = request.getParameter("anketadi");
-<<<<<<< HEAD
 
-=======
->>>>>>> 2ebebd68b9405bdc4557c7d3a410260548f0aea8
 if(anketadi==null || anketadi.equals("")){
 	response.sendRedirect("YeniAnket.jsp");
 	return;

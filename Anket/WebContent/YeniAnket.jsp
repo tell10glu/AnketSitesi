@@ -43,10 +43,7 @@ if(username==null || username.equals("")){
 	  var year = date.getFullYear();
 	  $("#baslangictarih").val(month+"/"+day+"/"+year);
 	  $('#sorudiv').hide();
-<<<<<<< HEAD
 	  
-=======
->>>>>>> 2ebebd68b9405bdc4557c7d3a410260548f0aea8
   });
   function soruEkle(){
 	 
@@ -83,11 +80,7 @@ if(username==null || username.equals("")){
 <body>
 	<ul id = "menu">
 		<li><a href='Profil.jsp'>Profil</a></li>
-<<<<<<< HEAD
 		<li><a href='AnketOlustur.jsp'>Anket Oluştur</a></li>
-=======
-		<li><a href='YeniAnket.jsp'>Anket Oluştur</a></li>
->>>>>>> 2ebebd68b9405bdc4557c7d3a410260548f0aea8
 		<li><a href='AnketDoldur.jsp'>Anket Doldur</a></li>
 		
 		<li><a href='CikisYap.jsp'>Çıkış Yap</a></li>
@@ -125,10 +118,7 @@ if(username==null || username.equals("")){
 		        					Kategoriler kat  = listKategori.get(i).getAltKategori().get(j);
 		        					out.print("\t\t\t");
 		        					out.print(" <input type='checkbox' name='kategori' value="+kat.getId()+">"+kat.getKategoriAdi()+"<br>");
-<<<<<<< HEAD
 			        	
-=======
->>>>>>> 2ebebd68b9405bdc4557c7d3a410260548f0aea8
 		        				}
 		        				
 	        				}
