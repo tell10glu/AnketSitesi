@@ -1,3 +1,6 @@
+<%@page import="yapiPackage.MailListener"%>
+<%@page import="yapiPackage.DavetMail"%>
+<%@page import="yapiPackage.Anket"%>
 <%@page import="yapiPackage.Kullanici"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -17,6 +20,7 @@ if(username!=null && password!=null){
 			session.setAttribute("userrole",kul.getRolId());
 			session.setAttribute("useremail",kul.getEmail());
 			response.sendRedirect("Profil.jsp");
+			
 		}
 	}catch(Exception ex){
 		
@@ -59,7 +63,7 @@ if (document.userlogin.password.value == ""){
 		Şifre: <br />
 		<input type="password" name="password" onblur="text_onblur(this);"> <br /><br />
 		<input type="submit" value="Giriş Yap" onblur = "text_onblur(this);"><br /><br />
-		
+		<a href="KayitOl.jsp">Kayıt olmak için tıklayın</a>
 		
 	</form>
 </body>

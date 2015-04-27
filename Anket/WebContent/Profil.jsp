@@ -10,12 +10,14 @@
 	int userid  =-1;
 	if(username==null || username.equals("")){
 		response.sendRedirect("KullaniciGiris.jsp");
+		return;
 	}else{
 		userid = (Integer)session.getAttribute("userid");
 		System.out.println("burdayim");
 		email = (String)session.getAttribute("useremail");
 		System.out.println("burdayim");
 	}
+	
 %>
 <html>
 <head>
