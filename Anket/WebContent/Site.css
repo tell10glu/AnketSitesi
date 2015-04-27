@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
 	color:white;
     font-family: "Trebuchet MS", Verdana, sans-serif;
@@ -94,3 +95,101 @@ ul#menu li a:hover {
     background-color: orange;
 }
 
+=======
+body {
+	color:white;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 16px;
+    background-color: dimgrey; 
+    padding: 3px;
+}
+
+#heading {
+	font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 16px;
+    background-color: white; 
+    color: #696969;
+    padding: 3px;
+}
+
+#main {
+    padding: 5px;
+    padding-left:  15px;
+    padding-right: 15px;
+    background-color: #ffffff;
+    border-radius: 5px 5px 5px 5px;
+}
+#main fieldset legend{
+	color:black;
+}
+#main fieldset p{
+	color:black;
+}
+#main form fieldset div label{
+	color:black;
+} 
+#main form fieldset div input{
+	color:black;
+} 
+
+a#menu {
+	background-color: orange;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+    border-radius: 4px 4px 4px 4px;
+}
+
+h1 {
+    font-family: Georgia, serif;
+    border-bottom: 3px solid #cc9900;
+    color: black;
+    font-size: 30px;
+}
+
+table {
+	width:70%;
+}
+
+table, th, td {
+	border: 1px solid grey;
+	border-collapse:collapse;
+	padding:5px;
+}
+
+th{
+	text-align:left;
+}
+
+table tr:nth-child(odd) {
+	background-color: #f1f1f1;
+}
+
+table tr: nth-child(even){
+	background-color:#ffffff;
+}
+
+ul#menu {
+    padding: 0;
+    margin-bottom: 11px;
+}
+
+ul#menu li {
+    display: inline;
+    margin-right: 3px;
+}
+
+ul#menu li a {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #696969;
+    border-radius: 4px 4px 0 0;
+}
+
+ul#menu li a:hover {
+    color: black;
+    background-color: orange;
+}
+
+>>>>>>> 2ebebd68b9405bdc4557c7d3a410260548f0aea8
