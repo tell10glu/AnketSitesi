@@ -10,8 +10,6 @@
 		return ;
 	}
 	int anketid = Integer.parseInt(request.getParameter("anketid"));
-	
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -57,7 +55,8 @@ function yeniCevapEkle(){
 	<div id="sorular">
 	Sorular burada listelencek . Açılır kapanır pencere halinde<br>
 	</div>
-	<form name="soruEkle" action="SoruEkle.jsp"  method="GET" >
+	<form name="soruEkle" action="SoruEkle.jsp"  method="POST" >
+	
 		<input type ="hidden" name="anketid" value=<%String.valueOf(anketid);%>>
 		<div id="sorudiv">
 			<div class="pure-control-group">

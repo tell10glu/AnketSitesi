@@ -1,5 +1,6 @@
 <%
 String anketid = request.getParameter("anketid");
+
 if(anketid==null || anketid.equals("")){
 	response.sendRedirect("AnketSorular.jsp");
 	return;
