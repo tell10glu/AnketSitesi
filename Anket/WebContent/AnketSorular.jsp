@@ -19,10 +19,15 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
 index = 1;
+function soruSil(){
+	alert("Soru Silinmeli");
+}
 function yeniCevapEkle(){
 	$('#cevapbaslik5').append("<p/><input name='cevap' id='cevap' style='color:black;' type='text'><br>");
+	$('#cevapbaslik5').append("<button name='cevabisil' type='button' id='soruyukaydet' onclick='soruSil();'></button>")
 	$('#coklu').append("<option value='"+index+"'>"+index+"</option>");
 	$('#cevapbaslik6').append("<p/><input name='cevap' id='cevap' style='color:black;' type='text'><br>");
+	
 	index++;
 	}
 function soruTipiSecildiginde(){
@@ -82,7 +87,7 @@ function kisitlama(){
 	<div id="sorular">
 	Sorular burada listelencek . Açılır kapanır pencere halinde<br>
 	</div>
-	<form name="soruEkle" action="SoruEkle.jsp"  method="GET" >
+	<form name="soruEkle" action="SoruEkle.jsp"  method="POST" >
 		<input type ="hidden" name="anketid" value=<%String.valueOf(anketid);%>>
 		<div id="sorudiv">
 			<div class="pure-control-group">

@@ -132,7 +132,7 @@ if(username==null || username.equals("")){
 	        		<input name='email' id='email' style='color:black;' type='text' onblur='emailleriKontrolEt();'><br>
 	        	</div>
 	        	<button type="button" id="buttonMailEkle" onclick="yeniEmail();">Yeni Email</button>
-	        	
+	 
 	        </div>
 		</fieldset>
 			

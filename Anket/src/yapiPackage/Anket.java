@@ -195,9 +195,7 @@ public class Anket {
 			message.setSubject("Testing Subject");
 			message.setText("Dear Mail Crawler,"
 				+ "\n\n No spam to my email, please!");
-
 			Transport.send(message);
- 
 			System.out.println("Done");
  
 		} catch (MessagingException e) {

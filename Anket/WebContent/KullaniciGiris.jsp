@@ -9,7 +9,6 @@ String username = request.getParameter("username");
 String password = request.getParameter("password");
 if(username!=null && password!=null){
 	try{
-		
 		Kullanici kul = Kullanici.kullaniciGiris(username, password);
 		if(kul==null){
 			out.println("Kullanici Giris Hatali!");
