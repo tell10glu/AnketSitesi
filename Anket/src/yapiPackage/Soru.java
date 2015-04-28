@@ -14,9 +14,6 @@ public class Soru {
 		this.anketid = anketid;
 		this.soruTipi = soruTipi;
 	}
-	public static Soru soruEkle(String soruYazisi,int anketid,int soruTipi){
-		return null;
-	}
 	public static ArrayList<Soru> anketSoruListesi(int anketID){
 		return null;
 	}

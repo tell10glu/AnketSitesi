@@ -169,39 +169,4 @@ public class Anket {
 			}
 		}
 	}
-	public static void AnketDavetiyeGonder(String[] emails,int anketID ,String kullaniciAdi){
-		final String username = "abdullahtellioglu93@gmail.com";
-		final String password = "tell10glu";
- 
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
- 
-		Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		  });
- 
-		try {
- 
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("abdullahtellioglu93@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("tellioglu_93@hotmail.com"));
-			message.setSubject("Testing Subject");
-			message.setText("Dear Mail Crawler,"
-				+ "\n\n No spam to my email, please!");
-			Transport.send(message);
-			System.out.println("Done");
- 
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		} catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
 }
