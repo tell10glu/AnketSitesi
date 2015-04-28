@@ -30,8 +30,7 @@ if(username==null || username.equals("")){
   <link rel="stylesheet" href="/resources/demos/style.css">
   <link rel="stylesheet" href="Site.css">
   <script type="text/javascript">
-  var soruTipiValue = -1;
-  var soruEkleSayfasiAcikmi = false;
+  var emaillerdogrumu = false;
   $(function() {
     $( "#bitistarihi" ).datepicker();
      
@@ -43,36 +42,30 @@ if(username==null || username.equals("")){
 	  var year = date.getFullYear();
 	  $("#baslangictarih").val(month+"/"+day+"/"+year);
 	  $('#sorudiv').hide();
-	  
-  });
-  function soruEkle(){
 	 
-	  if(soruEkleSayfasiAcikmi==false){
-		  $('#sorudiv').show('slow');
-		  soruEkleSayfasiAcikmi = true;
-	  }else{
-		  $('#sorudiv').hide('slow');
-		  soruEkleSayfasiAcikmi = false;
-	  }
-  };
-  function soruTipiSecildiginde(){
-	  
-	  var str ="";
-	  var value =  $('#sorutipi option:selected').each(function(){
-		  str += $( this ).text();  
-	  });
-	  soruTipiValue = str;
-	  if(str=="Coklu Secim"){
-		 $('#cevapyazi').remove(); 
-		  // coklu secim
-	  }else if(str == "Tekli Secim"){
-			 $('#cevapyazi').remove(); 
-		  // tekli secim
-	  }else if(str == "Yazi"){
-		  $('#sorudiv').append("<div class='pure-control-group' id ='cevapyazi'><label for='name'>Cevap Başlığını Giriniz : </label><input name='cevapbaslik' id='cevapbaslik' style='color:black;'  type='text' ></div>");
-		  // Yazi
+  });
+  function emailleriKontrolEt(){
+	  emaillerdogrumu = false;
+	var count = document.getElementsByName("email").length;
+	for(var i=0;i<count;i++){
+		var element = document.getElementsByName("email")[i].value;
+		if(!validateEmail(element)){
+			alert("Email Adresi Dogru Degil");
+			return false;
+		}
+	}
+	emaillerdogrumu = true;
+	return true;
+  }
+  function yeniEmail(){
+	  if(emaillerdogrumu){
+		  $('#emailler').append("<input name='email' id='email' style='color:black;' type='text' onblur='emailleriKontrolEt();'><br>");
 	  }
   }
+  function validateEmail(email) {
+	    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+	    return re.test(email);
+	}
   </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Yeni Anket Oluştur</title>
@@ -116,7 +109,7 @@ if(username==null || username.equals("")){
 	        				if(listKategori.get(i).getAltKategori()!=null){
 		        				for( int j=0;j<listKategori.get(i).getAltKategori().size();j++){
 		        					Kategoriler kat  = listKategori.get(i).getAltKategori().get(j);
-		        					out.print("\t\t\t");
+		        					
 		        					out.print(" <input type='checkbox' name='kategori' value="+kat.getId()+">"+kat.getKategoriAdi()+"<br>");
 			        	
 		        				}
@@ -130,8 +123,19 @@ if(username==null || username.equals("")){
 	        		
 	        	
 	        </div>
+	        <div class="pure-control-group">
+	            <label for="name">Herkese Açık</label>
+	        	<input name="HerkesGorebilir" id="HerkesGorebilir" type="checkbox" style="color:black;">
+	        </div>
+	        <div id="anketdavetlistesi">
+	        	<div id="emailler">
+	        		<input name='email' id='email' style='color:black;' type='text' onblur='emailleriKontrolEt();'><br>
+	        	</div>
+	        	<button type="button" id="buttonMailEkle" onclick="yeniEmail();">Yeni Email</button>
+	        	
+	        </div>
 		</fieldset>
-		
+			
 		<input type="submit" value="Anketi Kaydet" ><br />
 		</form>
 		
