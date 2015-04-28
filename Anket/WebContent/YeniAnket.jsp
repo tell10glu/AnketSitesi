@@ -129,7 +129,6 @@ if(username==null || username.equals("")){
 	        </div>
 	        <div id="anketdavetlistesi">
 	        	<div id="emailler">
-	        		<input name='email' id='email' style='color:black;' type='text' onblur='emailleriKontrolEt();'><br>
 	        	</div>
 	        	<button type="button" id="buttonMailEkle" onclick="yeniEmail();">Yeni Email</button>
 	 

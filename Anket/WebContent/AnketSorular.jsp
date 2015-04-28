@@ -18,18 +18,23 @@
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
-index = 1;
-function soruSil(){
-	alert("Soru Silinmeli");
+function soruSil(id){
+	var element = document.getElementsByName("cevap"+id);
+	$(element).remove();
+	var elementbutton = document.getElementsByName("cevapsil"+id);
+	$(elementbutton).remove();
 }
+index = 1;
 function yeniCevapEkle(){
-	$('#cevapbaslik5').append("<p/><input name='cevap' id='cevap' style='color:black;' type='text'><br>");
-	$('#cevapbaslik5').append("<button name='cevabisil' type='button' id='soruyukaydet' onclick='soruSil();'></button>")
+	$('#cevapbaslik5').append("<p/><input name='cevap"+index+"'  style='color:black;' type='text'>");
 	$('#coklu').append("<option value='"+index+"'>"+index+"</option>");
-	$('#cevapbaslik6').append("<p/><input name='cevap' id='cevap' style='color:black;' type='text'><br>");
+	$('#cevapbaslik6').append("<p/><input name='cevap' ' style='color:black;' type='text'><br>");
+	$('#cevapbaslik5').append("<button name='cevapsil"+index+"' type='button' id='soruyukaydet' onclick='soruSil(this.value);' value='"+index+"'>Sil</button>");
 	
 	index++;
-	}
+	$('#cevapindex').val(index);
+	
+}
 function soruTipiSecildiginde(){
 	  var str ="";
 	  var value =  $('#sorutipi option:selected').each(function(){
@@ -88,7 +93,8 @@ function kisitlama(){
 	Sorular burada listelencek . Açılır kapanır pencere halinde<br>
 	</div>
 	<form name="soruEkle" action="SoruEkle.jsp"  method="POST" >
-		<input type ="hidden" name="anketid" value=<%String.valueOf(anketid);%>>
+		<input type ="hidden" id="cevapindex" name="cevapindex" >
+		<input type ="hidden" name="anketid" value='<%out.print(anketid);%>'>
 		<div id="sorudiv">
 			<div class="pure-control-group">
 				<label for='name'> Soru :</label>
@@ -96,8 +102,8 @@ function kisitlama(){
 			</div>
 	  		<div class='pure-control-group'>
 	  			<label for='tip'> Soru Tipi :</label>
-	  			<select id="sorutipi" onchange="soruTipiSecildiginde()">
-	  			<option value='SeçimYAp'>Lütfen Bir Seçim Yapınız</option>
+	  			<select id="sorutipi" name="sorutipi" onchange="soruTipiSecildiginde()">
+	  			<option value='SeçimYap'>Lütfen Bir Seçim Yapınız</option>
 	  				<%
 	  				Connection connection = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
 	  				Statement statement = connection.createStatement();
