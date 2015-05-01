@@ -65,8 +65,6 @@ public class Anket {
 			if(rs.next()){
 				anket = new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6));
 			}
-			
-			
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();
 		} 
@@ -168,5 +166,21 @@ public class Anket {
 				// TODO: handle exception
 			}
 		}
+	}
+	public String toString(){
+		StringBuilder bl = new StringBuilder();
+		bl.append("<p>");
+		bl.append("Anket Adı : ");
+		bl.append(this.getAnketAdi());
+		bl.append("</p><br>");
+		bl.append("Koyulma Tarihi : ");
+		if(this.getKoyulmaTarihi()!=null)
+		bl.append(this.getKoyulmaTarihi().toString());
+		bl.append("<br>");
+		bl.append("Bitiş Tarihi : ");
+		if(this.getBitisTarihi()!=null);
+		bl.append(this.getBitisTarihi());
+		bl.append("<br>");
+		return bl.toString();
 	}
 }

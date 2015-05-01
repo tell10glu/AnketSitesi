@@ -9,4 +9,13 @@ public class Cevap {
 		this.cevap = cevap;
 		this.soruId = soruId;
 	}
+	public int getId() {
+		return id;
+	}
+	public String getCevap() {
+		return cevap;
+	}
+	public int getSoruId() {
+		return soruId;
+	}
 }
