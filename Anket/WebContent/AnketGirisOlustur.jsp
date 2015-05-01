@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Connections"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Date"%>
 <%@page import="java.sql.Statement"%>
@@ -25,15 +26,14 @@ for(int i =0;i<str.length;i++){
 Connection con = null;
 try{
 	Class.forName("com.mysql.jdbc.Driver"); 
-	con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
-	String query ="insert into Anket (KullaniciID,AnketAdi,IPKullanimIzin) VALUES("+(Integer)(session.getAttribute("userid"))+",'"+anketadi+"',"+Boolean.parseBoolean(ipKullanim)+")";
-	Statement st = con.prepareStatement(query);
-	/*st.setInt(1,1);//(Integer)(session.getAttribute("userid"))
+	con = Connections.getDatabaseConnectionPath();
+	String query ="insert into Anket (KullaniciID,AnketAdi,IPKullanimIzin,Aktif) VALUES(?,?,?,?)";// tarihler eklenmedi
+	PreparedStatement st = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+	st.setInt(1,(Integer)(session.getAttribute("userid")));//
 	st.setString(2,anketadi);
-	//st.setDate(3,Date.valueOf());
-	//st.setDate(4,Date.valueOf(bitistarihi));
-	st.setBoolean(3, Boolean.parseBoolean(ipKullanim));*/
-	long num = st.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+	st.setBoolean(3, Boolean.parseBoolean(ipKullanim));
+	st.setBoolean(4,false);
+	long num = st.executeUpdate();
 	if(num==0){
 		// hata cozumu yap
 		out.println("Hata Olustu");

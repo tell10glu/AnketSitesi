@@ -69,7 +69,7 @@ public class Soru {
 		ArrayList<Soru> lstSoru = new ArrayList<Soru>();
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			con = Connections.getDatabaseConnectionPath();
 			String query = "select * from Soru where anketId = "+anketId;
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);

@@ -8,16 +8,22 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
-
 
 public class Anket {
 	int id;
 	int kullaniciId;
 	String anketAdi;
+	boolean aktif;
+	public boolean isAktif(){
+		return aktif;
+	}
+	public void setAktif(int userid){
+		if(userid==kullaniciId){
+
+			this.aktif = true;
+			// veritabanı güncelleme yap
+		}
+	}
 	Date koyulmaTarihi,bitisTarihi;
 	public int getId() {
 		return id;
@@ -53,17 +59,28 @@ public class Anket {
 		this.bitisTarihi = bitisTarihi;
 		this.ipKullanimIzin = ipKullanimIzin;
 	}
+	public Anket(int id, int kullaniciId, String anketAdi, Date koyulmaTarihi,
+			Date bitisTarihi, boolean ipKullanimIzin,boolean aktif) {
+		super();
+		this.id = id;
+		this.kullaniciId = kullaniciId;
+		this.anketAdi = anketAdi;
+		this.koyulmaTarihi = koyulmaTarihi;
+		this.bitisTarihi = bitisTarihi;
+		this.ipKullanimIzin = ipKullanimIzin;
+		this.aktif = aktif;
+	}
 	public static Anket anketiGetir(int anketID){
 		Anket anket = null;
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			con = Connections.getDatabaseConnectionPath();
 			String query = "select * from Anket where ID = "+anketID;
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			if(rs.next()){
-				anket = new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6));
+				anket = new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7));
 			}
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();
@@ -87,12 +104,12 @@ public class Anket {
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			con = Connections.getDatabaseConnectionPath();
 			String query = "select * from Anket where KullaniciID = "+kullanici.getKullaniciId();
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			while(rs.next()){
-				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6)));
+				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7)));
 			}
 			
 			
@@ -116,12 +133,12 @@ public class Anket {
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			con = Connections.getDatabaseConnectionPath();
 			String query = "select * from Anket where KullaniciID = "+kullaniciid;
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			while(rs.next()){
-				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6)));
+				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7)));
 			}
 			
 			
@@ -144,7 +161,7 @@ public class Anket {
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			con = Connections.getDatabaseConnectionPath();
 			String query = "insert into AnketKategori (AnketID,KategoriID) VALUES(?,?)";
 			PreparedStatement st = con.prepareStatement(query);
 			st.setInt(1, anket.id);

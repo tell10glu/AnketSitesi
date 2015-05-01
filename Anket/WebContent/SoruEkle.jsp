@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Connections"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -16,7 +17,7 @@ String cevapindex = request.getParameter("cevapindex");
 Connection con = null;
 try{
 	Class.forName("com.mysql.jdbc.Driver"); 
-	con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+	con = Connections.getDatabaseConnectionPath();
 	
 	String query ="insert into Soru (soru,anketID,soruTipi) values ( ? , ? , ? ) ";
 	PreparedStatement st = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);

@@ -70,7 +70,7 @@ public class Kullanici {
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			con = Connections.getDatabaseConnectionPath();
 			String query = "select * from Kullanici where KullaniciAdi='"+kadi+"'";
 			Statement st = con.createStatement();
 			ResultSet rs=st.executeQuery(query);
@@ -104,7 +104,7 @@ public class Kullanici {
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			con = Connections.getDatabaseConnectionPath();
 			String query = "insert into Kullanici (KullaniciAdi,Sifre,Email,Rol) VALUES(?,?,?,?)";
 			PreparedStatement st = con.prepareStatement(query);
 			st.setString(1, kullaniciAdi);
@@ -134,7 +134,7 @@ public class Kullanici {
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			con = Connections.getDatabaseConnectionPath();
 			String query = "select * from Kullanici ";
 			Statement st = con.createStatement();
 			ResultSet rs=st.executeQuery(query);

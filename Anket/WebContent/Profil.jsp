@@ -60,6 +60,8 @@ th b i{
 						<th><b><i>Bitis Tarihi</i></b></th>
 					</tr>
 					<%
+					// Kullanıcının anketleri , halka açık anketler , vs vs ayrı ayrı listelenmeli
+					
 						ArrayList<Anket> anketlerim = Anket.anketListesiGetir(userid);
 						for(int i =0;i<anketlerim.size();i++){
 							Anket anketim = anketlerim.get(i);

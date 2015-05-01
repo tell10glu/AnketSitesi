@@ -16,6 +16,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 public class MailListener implements ServletContextListener {
+	
 	private static Queue<DavetMail> mailListesi;
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {

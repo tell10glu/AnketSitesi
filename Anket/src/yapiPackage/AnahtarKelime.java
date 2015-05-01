@@ -59,7 +59,7 @@ public class AnahtarKelime {
 		if(KullaniciRol.kullaniciRolunuGetir(kullanici).getRolAdi().equals("admin")){
 			try{
 				Class.forName("com.mysql.jdbc.Driver"); 
-				Connection con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+				Connection con = Connections.getDatabaseConnectionPath();
 				String query = "insert into Keywords(Key,Onay) VALUES (?,?)";
 				PreparedStatement statement = con.prepareStatement(query);
 				statement.setString(1, kelime);
@@ -72,7 +72,7 @@ public class AnahtarKelime {
 		}else{
 			try{
 				Class.forName("com.mysql.jdbc.Driver"); 
-				Connection con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+				Connection con = Connections.getDatabaseConnectionPath();
 				String query = "insert into Keywords(Key,Onay) VALUES (?,?)";
 				PreparedStatement statement = con.prepareStatement(query);
 				statement.setString(1, kelime);
@@ -97,7 +97,7 @@ public class AnahtarKelime {
 		if(rol.getRolAdi().equals("admin")){
 			try{
 				Class.forName("com.mysql.jdbc.Driver"); 
-				Connection con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+				Connection con = Connections.getDatabaseConnectionPath();
 				String query = "delete from Keywords where id = ?";
 				PreparedStatement statement = con.prepareStatement(query);
 				statement.setInt(1, kelime.getId());
@@ -123,7 +123,7 @@ public class AnahtarKelime {
 		if(rol.getRolAdi().equals("admin")){
 			try{
 				Class.forName("com.mysql.jdbc.Driver"); 
-				Connection con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+				Connection con = Connections.getDatabaseConnectionPath();
 				String query = "delete from Keywords where Key = ?";
 				PreparedStatement statement = con.prepareStatement(query);
 				statement.setString(1, kelime);
@@ -148,7 +148,7 @@ public class AnahtarKelime {
 		if(KullaniciRol.kullaniciRolunuGetir(kullanici).getRolAdi().equals("admin")){
 			try{
 				Class.forName("com.mysql.jdbc.Driver"); 
-				Connection con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+				Connection con = Connections.getDatabaseConnectionPath();
 				String query = "update  Keywords set Onay=? where Key = ?";
 				PreparedStatement statement = con.prepareStatement(query);
 				statement.setBoolean(1, !kelime.isOnay());
@@ -167,7 +167,7 @@ public class AnahtarKelime {
 		ArrayList<AnahtarKelime> kelimeListesi = new ArrayList<AnahtarKelime>();
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			Connection con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			Connection con = Connections.getDatabaseConnectionPath();
 			String query ;
 			query = "Select * from AnahtarKelime";
 			Statement statement = con.prepareStatement(query);

@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Connections"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="yapiPackage.Soru"%>
 <%@page import="yapiPackage.Anket"%>
@@ -8,6 +9,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	//Kişi Anket Sahibi mi 
+	//Anket Aktif mi ? değilse sayfada kalabilir aktif ise başka bir sayfa görüntüle.
+	//AnketID var mı 
 	if(request.getParameter("anketid")==null){
 		response.sendRedirect("AnketGirisOlustur.jsp");
 		return ;
@@ -135,6 +139,13 @@ function anketiKaydet(){
 	return confirm("Anketi Kaydetmek İstediğinizden Emin Misiniz?");
 	
 }
+function soruEkleKontrol(){
+	var soruYazisi = $("#soruyazisi").val();
+	if(soruYazisi==""){
+		alert("Soru Yazısı Boş Bırakılamaz");
+		return false;
+	}
+}
 </script>
 
 
@@ -201,7 +212,7 @@ function anketiKaydet(){
 	  			<select id="sorutipi" name="sorutipi" onchange="soruTipiSecildiginde()">
 	  			<option value='SecimYap'>Lütfen Bir Seçim Yapınız</option>
 	  				<%
-	  				Connection connection = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+	  				Connection connection = Connections.getDatabaseConnectionPath();
 	  				Statement statement = connection.createStatement();
 	  				String sql = "Select * from SoruTipleri";
 	  				ResultSet resultSet = statement.executeQuery(sql);
