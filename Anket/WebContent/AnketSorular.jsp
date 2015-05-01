@@ -79,7 +79,7 @@ function soruTipiSecildiginde(){
 	  if(str=="Coklu Secim"){
 		  $('#cevapdiv').prepend("<div id='cevapbaslik5'>Cevaplar</div>");
 		  $('#cevapbaslik5').append("<div id='yenicevap'><button name='buttonyenicevap' type='button' id='buttonyenicevap' onclick='yeniCevapEkle();'>Yeni Cevap</button></div>");
-		  $("#yenicevap").prepend("<div id='max'>Max SeÁilebilecek SeÁenek Say˝s˝ :<input name='maxseÁ' id='maxseÁ' style='color:black;'  type='text'></div>");
+		  $("#yenicevap").prepend("<div id='max'>Max Seçilebilecek Seçenek Sayısı :<input name='maxsec' id='maxsec' style='color:black;'  type='text'></div>");
 		 $('#cevapyazi').remove(); 
 		 $('#cevapbaslik6').remove(); 
 		 index = 1;
@@ -94,8 +94,8 @@ function soruTipiSecildiginde(){
 	  }else if(str == "Yazi"){
 		  $('#cevapbaslik5').remove(); 
 		  $('#cevapbaslik6').remove(); 
-		  $('#cevapdiv').prepend("<div id ='cevapyazi'><label for='name'>Cevap Ba˛l˝˝n˝ Giriniz : </label><input name='cevapbaslik' id='cevapbaslik' style='color:black;'  type='text' ></div>");
-		  $('#cevapyazi').append("<div id='kisitlama'>K˝s˝tlama : <select id='kisitlamalar' onchange='kisitlama()'><option value='SecimYAp'>L¸tfen Bir SeÁim Yap˝n˝z</option><option value='Yaz˝'>Yaz˝</option><option value='Say˝'>Say˝</option></select></div>");
+		  $('#cevapdiv').prepend("<div id ='cevapyazi'><label for='name'>Cevap Başlığını Giriniz : </label><input name='cevapbaslik' id='cevapbaslik' style='color:black;'  type='text' ></div>");
+		  $('#cevapyazi').append("<div id='kisitlama'>Kısıtlama : <select id='kisitlamalar' onchange='kisitlama()'><option value='SecimYAp'>Lütfen Bir Seçim Yapınız</option><option value='Yaz˝'>Yaz˝</option><option value='Say˝'>Say˝</option></select></div>");
 		  index = 1;
 		  secim=1;
 	  }
@@ -115,38 +115,26 @@ function kisitlama(){
 		$('#kisitlama').append("<label id='lbl1'><input name='cevapbaslik' id='cevapbaslik2' style='color:black;'  type='text'>(Alabilecei deer aral˝˝n˝ arada virg¸l kullanarak giriniz)</label>");
 	}
 }
-var SoruBilgileriAcikmi = false;
-var AnketBilgileriAcikmi = false;
+var SoruBilgileriAcikmi = true;
+var AnketBilgileriAcikmi = true;
 $(document).ready(function(){
-	if(AnketBilgileriAcikmi==false){
-		 $("#hideShowAnketBilgileri").click(function(){
-		        $("#bilgiler").toggle();
-		        $("#hideShowAnketBilgileri").attr("value","Anket Bilgilerini Gizle");
-		        
-		    });
-		 AnketBilgileriAcikmi = true;
-	}else{
-		 $("#hideShowAnketBilgileri").click(function(){
-		        $("#bilgiler").toggle();
-		        $("#hideShowAnketBilgileri").attr("value","Anket Bilgilerini Göster");
-		    });
-		 AnketBilgileriAcikmi = false;
-	}
-   	if(SoruBilgileriAcikmi==false){
-   	 $("#hideShowSoruBilgileri").click(function(){
-	        $("#sorubilgileri").toggle();
-	        $("#hideDivButton").attr("value","Soru Bilgilerini Gizle");
+	$("#bilgiler").toggle();
+	$("#sorubilgileri").toggle();
+	 $("#hideShowAnketBilgileri").click(function(){
+	        $("#bilgiler").toggle();
 	        
 	    });
-   	}else{
-   	 $("#hideShowSoruBilgileri").click(function(){
+	 $("#hideShowSoruBilgileri").click(function(){
 	        $("#sorubilgileri").toggle();
-	        $("#hideDivButton").attr("value","Soru Bilgilerini Goster");
 	        
 	    });
-   	}
+	
    
 });
+function anketiKaydet(){
+	return confirm("Anketi Kaydetmek İstediğinizden Emin Misiniz?");
+	
+}
 </script>
 
 
@@ -155,7 +143,7 @@ $(document).ready(function(){
 </head>
 <body>
 	<div id="anketbilgileri" class="gradientBoxesWithOuterShadows">
-	Anket Bilgileri
+	<p>Anket Bilgileri</p>
 		<div id="bilgiler">
 				<%
 				Anket anket = Anket.anketiGetir(anketid); 
@@ -164,9 +152,10 @@ $(document).ready(function(){
 				
 				%>
 		</div>
-	<input type="button" id="hideShowAnketBilgileri" value="Anket Bilgilerini Gizle">
+	<input type="button" id="hideShowAnketBilgileri" value="Anket Bilgilerini Gizle/Göster">
 	</div>
 	<div id="sorular" class="gradientBoxesWithOuterShadows">
+	<p>Soru Bilgileri</p>
 		<div id="sorubilgileri" >
 			<%
 				ArrayList<Soru> lstSoru = Soru.anketSoruListesi(anketid);
@@ -195,7 +184,7 @@ $(document).ready(function(){
 				
 			%>
 		</div>
-	<input type="button" id="hideShowSoruBilgileri" value="Soru Bilgilerini Gizle">
+	<input type="button" id="hideShowSoruBilgileri" value="Soru Bilgilerini Gizle/Göster">
 		
 	</div>
 	<div class="gradientBoxesWithOuterShadows"> 
@@ -210,7 +199,7 @@ $(document).ready(function(){
 	  		<div class='pure-control-group'>
 	  			<label for='tip'> Soru Tipi :</label>
 	  			<select id="sorutipi" name="sorutipi" onchange="soruTipiSecildiginde()">
-	  			<option value='SeÁimYap'>L¸tfen Bir SeÁim Yap˝n˝z</option>
+	  			<option value='SecimYap'>Lütfen Bir Seçim Yapınız</option>
 	  				<%
 	  				Connection connection = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
 	  				Statement statement = connection.createStatement();
@@ -231,8 +220,16 @@ $(document).ready(function(){
 				</div>
 			</div>
 		</div>
-		<button name="soruyukaydet" type="submit" id="soruyukaydet" onclick=""></button>
+		<button name="soruyukaydet" type="submit" id="soruyukaydet" onclick="">Soruyu Kaydet</button>
+		
 	</form>
 	</div>
+	<div>
+	<form name="anketKaydet" action="anketKayit.jsp" onsubmit="return anketiKaydet();"  method="POST" >
+		<input type ="hidden" name="anketid" value='<%out.print(anketid);%>'>
+		<button type="submit" name="anketkayitet" style="width:100%;height:100px;">Anketi Kaydet</button>
+	</form>
+	</div>
+	
 </body>
 </html>
