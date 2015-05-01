@@ -17,7 +17,7 @@ Connection con = null;
 try{
 	Class.forName("com.mysql.jdbc.Driver"); 
 	con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
-	//"insert into Soru(soru,anketID,soruTipi) VALUES (?,?,?) "
+	
 	String query ="insert into Soru (soru,anketID,soruTipi) values ( ? , ? , ? ) ";
 	PreparedStatement st = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 	st.setString(1, soru);
@@ -31,6 +31,7 @@ try{
         }
         for(int i=1;i<=Integer.parseInt(cevapindex);i++){
         	String cvp = request.getParameter("cevap"+i);
+        	
         	if(cvp!=null){
         		// Cevaplar Ekleniyor.
         		query = "insert into Cevap(cevap,soruID) VALUES(?,?)";

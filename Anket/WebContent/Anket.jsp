@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="yapiPackage.Soru"%>
 <%@page import="yapiPackage.Anket"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6,6 +8,7 @@
 	// Anket ID doğru mu ? (veritabaninda da var mi diye bak)
 	// Anket Herkese Açık mı veya Davet Listesinde Kullanici Adi var mi ? (Anket Sahibi mi ?)
 	// Anket süresi devam ediyor ise anketi , etmiyor ise raporları göster .
+	
 	if(session.getAttribute("userid")==null){
 		response.sendRedirect("KullaniciGiris.jsp");
 		return;
@@ -34,9 +37,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title><%out.print(anket.getAnketAdi()); %></title>
 </head>
 <body>
+	<%
 	
+	ArrayList<Soru> lst = Soru.anketSoruListesi(anketid); 
+	out.print(lst.size());
+	for(int i =0;i<lst.size();i++){
+		out.print(lst.get(i).toString());
+	}
+	%>
 </body>
 </html>
