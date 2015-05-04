@@ -11,7 +11,6 @@
 		<li><a href='Profil.jsp'>Profil</a></li>
 		<li><a href='YeniAnket.jsp'>Anket Oluştur</a></li>
 		<li><a href='AnketDoldur.jsp'>Anket Doldur</a></li>
-		
 		<li><a href='CikisYap.jsp'>Çıkış Yap</a></li>
 	</ul>
 	<div id="main">
@@ -20,7 +19,6 @@
 			<legend>Kullanici Bilgileri</legend>
 		</fieldset>
 		<br />
-		
 		<fieldset>
 			<legend>Anket Bilgileri</legend>
 				<table>

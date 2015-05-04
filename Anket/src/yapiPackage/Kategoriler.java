@@ -1,7 +1,6 @@
 package yapiPackage;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -56,7 +55,7 @@ public class Kategoriler {
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection)DriverManager.getConnection("jdbc:mysql://127.0.0.1/AnketSitesi","root","tellioglu");
+			con = Connections.getDatabaseConnectionPath();
 			String query = "select * from Kategori ";
 			Statement st = con.createStatement();
 			ResultSet rs=st.executeQuery(query);
