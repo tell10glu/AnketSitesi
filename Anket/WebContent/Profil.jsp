@@ -32,14 +32,14 @@ th b i{
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="Site.css" rel="stylesheet" >
-<title>Insert title here</title>
+<title>Profil</title>
 </head>
 <body>
 	<ul id = "menu">
+		<li><a href='AnaSayfa.jsp'>Ana Sayfa</a></li>
 		<li><a href='Profil.jsp'>Profil</a></li>
 		<li><a href='YeniAnket.jsp'>Anket Oluştur</a></li>
 		<li><a href='AnketDoldur.jsp'>Anket Doldur</a></li>
-		
 		<li><a href='CikisYap.jsp'>Çıkış Yap</a></li>
 	</ul>
 	<div id="main">
@@ -61,7 +61,6 @@ th b i{
 					</tr>
 					<%
 					// Kullanıcının anketleri , halka açık anketler , vs vs ayrı ayrı listelenmeli
-					
 						ArrayList<Anket> anketlerim = Anket.anketListesiGetir(userid);
 						for(int i =0;i<anketlerim.size();i++){
 							Anket anketim = anketlerim.get(i);

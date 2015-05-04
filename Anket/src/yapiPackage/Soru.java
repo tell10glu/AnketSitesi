@@ -48,10 +48,10 @@ public class Soru {
 				switch (soruTipi) {
 				case 1:
 					//tek seçim olabilmesi için soruid alması lazım
-						bl.append("<input type='radio' name="+this.getId()+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
+						bl.append("<input type='checkbox' name="+this.getLstCevap().get(i).id+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
 					break;
 				case 2:
-					bl.append("<input type='checkbox' name="+this.getLstCevap().get(i).id+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
+					bl.append("<input type='radio' name="+this.getId()+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
 					break;
 				case 3:
 					bl.append("<input type='text' name="+this.getLstCevap().get(i).id+" value='1'>"+getLstCevap().get(i).cevap+"<br>");

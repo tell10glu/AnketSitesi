@@ -10,5 +10,5 @@ public class DavetMail{
 			this.anketid = anketid;
 			this.davetEdenKullaniciAdi = davetEdenKullaniciAdi;
 		}
-		
+	
 	}

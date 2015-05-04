@@ -1,3 +1,6 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="java.util.Map"%>
 <%@page import="yapiPackage.Kategoriler"%>
@@ -17,7 +20,10 @@ if(username==null || username.equals("")){
 }else{
 	email = (String)session.getAttribute("useremail");
 }
+SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
+String today;
+today = format.format(new Date());
 %>
 <html>
 
@@ -38,7 +44,7 @@ if(username==null || username.equals("")){
     $( "#bitistarihi" ).datepicker();
      
   });
-  $(document).ready(function(){
+ /* $(document).ready(function(){
 	  var date =new Date();
 	  var month = date.getMonth()+1;
 	  var day = date.getDay();
@@ -46,24 +52,46 @@ if(username==null || username.equals("")){
 	  $("#baslangictarih").val(month+"/"+day+"/"+year);
 	  $('#sorudiv').hide();
 	 
-  });
+  });*/
+  function validPost(){
+	  var selected = [];
+	  $('#kategorilistesi input:checked').each(function() {
+	      selected.push($(this).attr('name'));
+	  });
+	  if(selected.length==0){
+		  alert("Kategori Boş Bırakılamaz!");
+		  return false;
+	  }
+	  var bitistarihi = $("#bitistarihi").val();
+	  if(bitistarihi==""){
+		  alert("Bitiş Tarihi Boş Bırakılamaz!");
+		  return false;
+	  }
+	  if($("#anketadi").val()==""){
+		  alert("Anket Adı Boş Bırakılamaz!");
+		  return false;
+	  }
+  }
   function emailleriKontrolEt(){
 	  emaillerdogrumu = false;
 	var count = document.getElementsByName("email").length;
 	for(var i=0;i<count;i++){
 		var element = document.getElementsByName("email")[i].value;
 		if(!validateEmail(element)){
-			alert("Email Adresi Dogru Degil");
+			alert("Email Adresi Doğru Değil");
 			return false;
 		}
 	}
 	emaillerdogrumu = true;
 	return true;
   }
+  index=1;
   function yeniEmail(){
-	  if(emaillerdogrumu){
-		  $('#emailler').append("<input name='email' id='email' style='color:black;' type='text' onblur='emailleriKontrolEt();'><br>");
-	  }
+		  //$('#emailler').append("<div><input name='email"+index+"' id='email"+index+"' style='color:black;' type='text' onblur='emailleriKontrolEt(this.value);'></div>");
+  		  $('#emailler').append("<div><input name='davetemail' style='color:black;' type='text' onblur='emailleriKontrolEt(this.value);'></div>");
+  		  
+		  index++;
+  		  $("emailindex").val(index);
   }
   function validateEmail(email) {
 	    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -78,12 +106,11 @@ if(username==null || username.equals("")){
 		<li><a href='Profil.jsp'>Profil</a></li>
 		<li><a href='AnketOlustur.jsp'>Anket Oluştur</a></li>
 		<li><a href='AnketDoldur.jsp'>Anket Doldur</a></li>
-		
 		<li><a href='CikisYap.jsp'>Çıkış Yap</a></li>
 	</ul>
 	<div id="#main">
-		<form name="anketolustur" action="AnketGirisOlustur.jsp"  method="POST" class ="pure-form pure-form-aligned" >
-			
+		<form name="anketolustur" onsubmit="return validPost();" action="AnketGirisOlustur.jsp"  method="POST" class ="pure-form pure-form-aligned" >
+		<input type="hidden" name="baslangictarih" id="baslangictarih" value="<%out.print(today);%>"> 
 		<fieldset>
 			<legend>Anket Bilgileri</legend>
 				 <div class="pure-control-group">
@@ -92,7 +119,7 @@ if(username==null || username.equals("")){
 	        </div>
 	        <div class="pure-control-group">
 	            <label for="name">Başlangıç Tarihi:</label>
-	            <input name="baslangictarih" id="baslangictarih" style="color:black;"  type="text" disabled>
+	            <input  style="color:black;"  type="text" value="<%out.print(today);%>" disabled>
 	        </div>
 	         <div class="pure-control-group">
 	            <label for="name">Bitiş Tarihi:</label>
@@ -123,21 +150,18 @@ if(username==null || username.equals("")){
 	        		
 	        		%>
 	        	</div>
-	        		
-	        	
 	        </div>
 	        <div class="pure-control-group">
 	            <label for="name">Herkese Açık</label>
 	        	<input name="HerkesGorebilir" id="HerkesGorebilir" type="checkbox" style="color:black;">
 	        </div>
 	        <div id="anketdavetlistesi">
-	        	<div id="emailler">
-	        	</div>
+	        	<div id="emailler">Davet Edilecek E-Posta Listesi</div>
 	        	<button type="button" id="buttonMailEkle" onclick="yeniEmail();">Yeni Email</button>
 	 
 	        </div>
 		</fieldset>
-			
+		<input type="hidden" name="emailindex" id ="emailindex" >
 		<input type="submit" value="Anketi Kaydet" ><br />
 		</form>
 		

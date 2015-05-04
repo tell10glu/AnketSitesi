@@ -18,7 +18,6 @@ Connection con = null;
 try{
 	Class.forName("com.mysql.jdbc.Driver"); 
 	con = Connections.getDatabaseConnectionPath();
-	
 	String query ="insert into Soru (soru,anketID,soruTipi) values ( ? , ? , ? ) ";
 	PreparedStatement st = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 	st.setString(1, soru);
@@ -49,7 +48,6 @@ try{
 }finally{
 	con.close();
 }
-
 String[] kisitlamalar = request.getParameterValues("Kisitlamalar");
 System.out.println(soru);
 System.out.println(soruTipi);

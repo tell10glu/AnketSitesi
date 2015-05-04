@@ -40,17 +40,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript">
+function validPost(){
+	return true;
+}
+
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><%out.print(anket.getAnketAdi()); %></title>
 </head>
 <body>
-	<%
-	ArrayList<Soru> lst = Soru.anketSoruListesi(anketid); 
+	<form onsubmit="return validPost()" method="POST" action="AnketTamamla.jsp">
+		<div id="sorular">
+			<%
+				ArrayList<Soru> lst = Soru.anketSoruListesi(anketid); 
+				for(int i =0;i<lst.size();i++){
+					out.print(String.valueOf(i+1)+".       ");
+					out.print(lst.get(i).toString());
+				}
+			%>
+		
+		</div>
 	
-	for(int i =0;i<lst.size();i++){
-		out.print(lst.get(i).toString());
-	}
-	%>
+	</form>
 	
 </body>
 </html>

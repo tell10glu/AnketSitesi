@@ -17,6 +17,8 @@
 		return ;
 	}
 	int anketid = Integer.parseInt(request.getParameter("anketid"));
+
+	Anket anket = Anket.anketiGetir(anketid); 
 	
 
 %>
@@ -119,21 +121,17 @@ function kisitlama(){
 		$('#kisitlama').append("<label id='lbl1'><input name='cevapbaslik' id='cevapbaslik2' style='color:black;'  type='text'>(Alabilecei deer aral˝˝n˝ arada virg¸l kullanarak giriniz)</label>");
 	}
 }
-var SoruBilgileriAcikmi = true;
-var AnketBilgileriAcikmi = true;
 $(document).ready(function(){
 	$("#bilgiler").toggle();
 	$("#sorubilgileri").toggle();
 	 $("#hideShowAnketBilgileri").click(function(){
-	        $("#bilgiler").toggle();
+	        $("#bilgiler").toggle(500);
 	        
 	    });
 	 $("#hideShowSoruBilgileri").click(function(){
-	        $("#sorubilgileri").toggle();
-	        
+	        $("#sorubilgileri").toggle(500);
 	    });
 	
-   
 });
 function anketiKaydet(){
 	return confirm("Anketi Kaydetmek İstediğinizden Emin Misiniz?");
@@ -145,23 +143,20 @@ function soruEkleKontrol(){
 		alert("Soru Yazısı Boş Bırakılamaz");
 		return false;
 	}
+	// burada cevapların sayısı girilmiş mi girilmemiş mi kontrol edilcek vs vs.
+	
 }
 </script>
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title><%out.print(anket.getAnketAdi()); %></title>
 </head>
 <body>
 	<div id="anketbilgileri" class="gradientBoxesWithOuterShadows">
 	<p>Anket Bilgileri</p>
 		<div id="bilgiler">
-				<%
-				Anket anket = Anket.anketiGetir(anketid); 
 				out.println(anket.toString());
-				
-				
-				%>
 		</div>
 	<input type="button" id="hideShowAnketBilgileri" value="Anket Bilgilerini Gizle/Göster">
 	</div>
@@ -196,10 +191,9 @@ function soruEkleKontrol(){
 			%>
 		</div>
 	<input type="button" id="hideShowSoruBilgileri" value="Soru Bilgilerini Gizle/Göster">
-		
 	</div>
 	<div class="gradientBoxesWithOuterShadows"> 
-	<form name="soruEkle" action="SoruEkle.jsp"  method="POST" >
+	<form name="soruEkle" action="SoruEkle.jsp"  onsubmit="return soruEkleKontrol();" method="POST" >
 		<input type ="hidden" id="cevapindex" name="cevapindex" >
 		<input type ="hidden" name="anketid" value='<%out.print(anketid);%>'>
 		<div id="sorudiv">
@@ -236,7 +230,7 @@ function soruEkleKontrol(){
 	</form>
 	</div>
 	<div>
-	<form name="anketKaydet" action="anketKayit.jsp" onsubmit="return anketiKaydet();"  method="POST" >
+	<form name="anketKaydet" action="AnketKayit.jsp" onsubmit="return anketiKaydet();"  method="POST" >
 		<input type ="hidden" name="anketid" value='<%out.print(anketid);%>'>
 		<button type="submit" name="anketkayitet" style="width:100%;height:100px;">Anketi Kaydet</button>
 	</form>

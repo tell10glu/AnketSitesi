@@ -31,7 +31,7 @@ CREATE TABLE `Anket` (
   `IPKullanimIzin` bit(1) DEFAULT NULL,
   `Aktif` bit(1) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,8 +40,32 @@ CREATE TABLE `Anket` (
 
 LOCK TABLES `Anket` WRITE;
 /*!40000 ALTER TABLE `Anket` DISABLE KEYS */;
-INSERT INTO `Anket` VALUES (1,7,'abdullahinanketi',NULL,NULL,'',NULL),(2,7,'qweqwe',NULL,NULL,'\0',NULL),(3,7,'qweqwe',NULL,NULL,'\0',NULL),(4,2,'cetininanketi',NULL,NULL,'\0',NULL),(5,2,'cetininanketi2',NULL,NULL,'\0',NULL),(6,2,'cetinanket123',NULL,NULL,'\0',NULL),(7,2,'cetinaa',NULL,NULL,'\0',NULL),(8,2,'anketceto',NULL,NULL,'\0',NULL),(9,2,'anketcet',NULL,NULL,'\0',NULL),(10,7,'abdullahinanket',NULL,NULL,'\0',NULL),(11,7,'asdfasdf',NULL,NULL,'\0',NULL),(12,7,'tewtrwt',NULL,NULL,'\0',NULL),(13,7,'bhbhl',NULL,NULL,'\0',NULL),(14,7,'asdfasdf',NULL,NULL,'\0',NULL),(15,7,'qweasfd',NULL,NULL,'\0',NULL),(16,7,'weqrrqwe',NULL,NULL,'\0',NULL),(17,7,'asdfasf',NULL,NULL,'\0',NULL),(18,7,'asdfasf',NULL,NULL,'\0',NULL),(19,7,'qwersafd',NULL,NULL,'\0',NULL),(20,7,'qwrr',NULL,NULL,'\0',NULL),(21,7,'qwer',NULL,NULL,'\0',NULL),(22,7,'asdfa',NULL,NULL,'\0',NULL),(23,7,'asdf',NULL,NULL,'\0',NULL),(24,7,'asdf',NULL,NULL,'\0',NULL),(25,7,'asdfsadf',NULL,NULL,'\0',NULL),(26,7,'asdf',NULL,NULL,'\0',NULL),(27,7,'WDFASDF',NULL,NULL,'\0',NULL),(28,7,'asfasdf',NULL,NULL,'\0',NULL);
+INSERT INTO `Anket` VALUES (106,7,'DenemeAnket','2015-05-04','2015-05-27','\0','\0'),(107,7,'AnketEmailDeneme','2015-05-04','2015-05-20','\0','\0'),(108,7,'AnketDeneme','2015-05-04','2015-05-25','\0',''),(109,7,'OguzDeneme','2015-05-04','2015-05-28','\0','');
 /*!40000 ALTER TABLE `Anket` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AnketDavet`
+--
+
+DROP TABLE IF EXISTS `AnketDavet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AnketDavet` (
+  `KullaniciEmail` varchar(50) NOT NULL DEFAULT '',
+  `anketId` int(11) NOT NULL,
+  `mailGonderildi` bit(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AnketDavet`
+--
+
+LOCK TABLES `AnketDavet` WRITE;
+/*!40000 ALTER TABLE `AnketDavet` DISABLE KEYS */;
+INSERT INTO `AnketDavet` VALUES ('ogz.khrmn52@gmail.com',107,'\0'),('abdullah.tellioglu93@gmail.com',107,'\0'),('ogz.khrmn52@gmail.com',108,''),('tellioglu_93@hotmail.com',108,''),('abdullah.tellioglu@gmail.com',108,''),('ogz.khrmn52@gmail.com',109,''),('huseyin.can.ercan@hotmail.com',109,''),('tellioglu_93@hotmail.com',109,'');
+/*!40000 ALTER TABLE `AnketDavet` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -63,7 +87,7 @@ CREATE TABLE `AnketKategori` (
 
 LOCK TABLES `AnketKategori` WRITE;
 /*!40000 ALTER TABLE `AnketKategori` DISABLE KEYS */;
-INSERT INTO `AnketKategori` VALUES (1,1),(1,5),(1,2),(1,3),(9,1),(9,5),(9,3),(9,4),(10,1),(10,2),(10,3),(11,1),(11,5),(11,2),(11,3),(12,1),(12,3),(12,4),(13,5),(13,2),(13,3),(14,1),(14,3),(14,4),(15,1),(15,5),(15,2),(15,3),(16,1),(16,5),(17,5),(17,2),(18,1),(18,5),(18,2),(19,1),(19,5),(20,1),(20,5),(20,2),(21,5),(21,2),(22,1),(22,5),(22,2),(23,1),(23,5),(24,1),(24,5),(24,2),(25,3),(26,2),(27,1),(27,5),(27,2),(28,5),(28,2),(28,3);
+INSERT INTO `AnketKategori` VALUES (106,1),(106,5),(106,2),(106,3),(107,1),(107,5),(107,2),(108,1),(108,5),(108,2),(109,1),(109,5);
 /*!40000 ALTER TABLE `AnketKategori` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +103,7 @@ CREATE TABLE `Cevap` (
   `cevap` varchar(50) DEFAULT NULL,
   `soruID` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,6 +112,7 @@ CREATE TABLE `Cevap` (
 
 LOCK TABLES `Cevap` WRITE;
 /*!40000 ALTER TABLE `Cevap` DISABLE KEYS */;
+INSERT INTO `Cevap` VALUES (1,'Trabzon SPOR',25),(2,'bjk',25),(3,'gs',25),(4,'gfb',25),(5,'GenÃ§lerBirliÄ?i',25),(6,'OsmanlÄ±Spor',25),(7,'Kola',26),(8,'Ayran',26),(9,'Gazoz',26),(10,'Å?algam',26),(11,'asdf',28),(12,'asfdsadf',28),(13,'BEn',29),(14,'OÄ?uz',29),(15,'HÃ¼seyin',29);
 /*!40000 ALTER TABLE `Cevap` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,9 +257,9 @@ CREATE TABLE `Soru` (
   `soruNumarasi` int(11) DEFAULT NULL,
   `soru` varchar(250) NOT NULL DEFAULT '',
   `anketId` int(11) DEFAULT NULL,
-  `sorutTipi` int(11) DEFAULT NULL,
+  `soruTipi` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,6 +268,7 @@ CREATE TABLE `Soru` (
 
 LOCK TABLES `Soru` WRITE;
 /*!40000 ALTER TABLE `Soru` DISABLE KEYS */;
+INSERT INTO `Soru` VALUES (25,NULL,'Å?ampiyon Kim Olur',106,2),(26,NULL,'Hangi Ä°Ã§eceÄ?i Tercih Edersiniz',106,1),(27,NULL,'SoruDeneme1',108,1),(28,NULL,'SoruDeneme1',108,1),(29,NULL,'Seni Siken Kim ?',109,1);
 /*!40000 ALTER TABLE `Soru` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,4 +305,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-23 22:57:41
+-- Dump completed on 2015-05-04 12:43:03

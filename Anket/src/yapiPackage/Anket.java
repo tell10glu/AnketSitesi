@@ -127,6 +127,66 @@ public class Anket {
 		}
 		return list;
 	}
+	public static ArrayList<Anket> anketListesi(String query){
+		ArrayList<Anket> list = new ArrayList<Anket>();
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while(rs.next()){
+				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7)));
+			}
+			
+			
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.getMessage();
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return list;
+	}
+	public static ArrayList<Anket> kullanicininDavetEdildigiAnketler(String email){
+		ArrayList<Anket> list = new ArrayList<Anket>();
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			System.out.println(email);
+			String query = "select Anket.* from Anket,AnketDavet where AnketDavet.KullaniciEmail = ? AND Anket.ID = AnketDavet.anketId";
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, email);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()){
+				Anket anket = new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7));
+				System.out.println(anket);
+				list.add(anket);
+			}
+			
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.getMessage();
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+			}
+		}
+		return list;
+	}
+	
 	public static ArrayList<Anket> anketListesiGetir(int kullaniciid){
 		ArrayList<Anket> list = new ArrayList<Anket>();
 		Connection con = null;
