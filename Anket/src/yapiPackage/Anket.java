@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Anket {
@@ -110,8 +111,6 @@ public class Anket {
 			while(rs.next()){
 				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7)));
 			}
-			
-			
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();
 		} 
@@ -138,13 +137,11 @@ public class Anket {
 			while(rs.next()){
 				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7)));
 			}
-			
-			
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();
 		} 
 		catch(Exception e){
-			e.getMessage();
+			e.printStackTrace();
 		}
 		finally{
 			try {
@@ -176,12 +173,13 @@ public class Anket {
 			ex.printStackTrace();
 		} 
 		catch(Exception e){
-			e.getMessage();
+			e.printStackTrace();
 		}
 		finally{
 			try {
 				con.close();
 			} catch (Exception e) {
+				
 			}
 		}
 		return list;

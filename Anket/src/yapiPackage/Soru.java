@@ -47,14 +47,39 @@ public class Soru {
 		for(int i =0;i<this.getLstCevap().size();i++){
 				switch (soruTipi) {
 				case 1:
-					//tek seçim olabilmesi için soruid alması lazım
-						bl.append("<input type='checkbox' name="+this.getLstCevap().get(i).id+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
+					bl.append("<input type='checkbox'  name='cevap' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+			
 					break;
 				case 2:
-					bl.append("<input type='radio' name="+this.getId()+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
+					bl.append("<input type='radio' name='cevap' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+					
 					break;
 				case 3:
-					bl.append("<input type='text' name="+this.getLstCevap().get(i).id+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
+					bl.append("<input type='text' name='yazi' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+					break;
+				default:
+					break;
+				}
+		}
+		bl.append("<hr>");
+		return bl.toString();
+	}
+	public String toString(int sorusirasi){
+		StringBuilder bl = new StringBuilder();
+		bl.append(this.soruYazisi);
+		bl.append("<br>");
+		for(int i =0;i<this.getLstCevap().size();i++){
+				switch (soruTipi) {
+				case 1:
+					bl.append("<input type='checkbox'  name='cevap"+sorusirasi+"' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+					
+					break;
+				case 2:
+					bl.append("<input type='radio' name='cevap"+sorusirasi+"' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+					
+					break;
+				case 3:
+					bl.append("<input type='text' name='cevap' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
 					break;
 				default:
 					break;
