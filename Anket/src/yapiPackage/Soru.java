@@ -6,6 +6,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Soru {
+	public Soru(){
+		
+	}
 	int id;
 	String soruYazisi;
 	int anketid;
@@ -47,14 +50,39 @@ public class Soru {
 		for(int i =0;i<this.getLstCevap().size();i++){
 				switch (soruTipi) {
 				case 1:
-					//tek seçim olabilmesi için soruid alması lazım
-						bl.append("<input type='checkbox' name="+this.getLstCevap().get(i).id+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
+					bl.append("<input type='checkbox'  name='cevap' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+			
 					break;
 				case 2:
-					bl.append("<input type='radio' name="+this.getId()+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
+					bl.append("<input type='radio' name='cevap' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+					
 					break;
 				case 3:
-					bl.append("<input type='text' name="+this.getLstCevap().get(i).id+" value='1'>"+getLstCevap().get(i).cevap+"<br>");
+					bl.append("<input type='text' name='yazi' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+					break;
+				default:
+					break;
+				}
+		}
+		bl.append("<hr>");
+		return bl.toString();
+	}
+	public String toString(int sorusirasi){
+		StringBuilder bl = new StringBuilder();
+		bl.append(this.soruYazisi);
+		bl.append("<br>");
+		for(int i =0;i<this.getLstCevap().size();i++){
+				switch (soruTipi) {
+				case 1:
+					bl.append("<input type='checkbox'  name='cevap"+sorusirasi+"' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+					
+					break;
+				case 2:
+					bl.append("<input type='radio' name='cevap"+sorusirasi+"' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
+					
+					break;
+				case 3:
+					bl.append("<input type='text' name='cevap' value='"+this.getLstCevap().get(i).id+"'>"+getLstCevap().get(i).cevap+"<br>");
 					break;
 				default:
 					break;
@@ -102,6 +130,32 @@ public class Soru {
 		
 		return lstSoru;
 	}
-	
+	public static String getSoruAdi(int soruid){
+		Connection con = null;
+		String soru=null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			String query = "select soru from Soru where id = "+soruid;
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while(rs.next()){
+				soru=rs.getString("soru");
+			}
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.getMessage();
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return soru;
+	}
 
 }

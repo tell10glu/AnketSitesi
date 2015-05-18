@@ -25,29 +25,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<style type="text/css">
-.gradientBoxesWithOuterShadows { 
-height: auto;
-width: %75; 
-padding: 20px;
-margin : auto;
-background-color: white; 
 
-/* outer shadows  (note the rgba is red, green, blue, alpha) */
--webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4); 
--moz-box-shadow: 0px 1px 6px rgba(23, 69, 88, .5);
-
-/* rounded corners */
--webkit-border-radius: 12px;
--moz-border-radius: 7px; 
-border-radius: 7px;
-
-/* gradients */
-background: -webkit-gradient(linear, left top, left bottom, 
-color-stop(0%, white), color-stop(15%, white), color-stop(100%, #D7E9F5)); 
-background: -moz-linear-gradient(top, white 0%, white 55%, #D5E4F3 130%); 
-}
-</style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
 function soruSil(id){

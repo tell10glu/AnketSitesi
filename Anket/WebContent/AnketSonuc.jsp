@@ -1,4 +1,3 @@
-<%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="yapiPackage.Soru"%>
 <%@page import="yapiPackage.Anket"%>
@@ -34,13 +33,7 @@
 		response.sendRedirect("Profil.jsp");
 	}
 	if(userID==anket.getKullaniciId() && anket.isAktif()){
-		out.print("Anket Aktif Durumda . Bu durumda ekleme çıkartma yapılamaz!");
-		return;
-	}
-	if(anket.getBitisTarihi().before(new Date())){
-		out.println("Anketin Tarihi Geçmiş");
-		// rapor sayfasına yönlendir.
-		
+		response.sendRedirect("");
 		return;
 	}
 %>
