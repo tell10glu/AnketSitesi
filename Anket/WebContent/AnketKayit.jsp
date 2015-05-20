@@ -23,10 +23,11 @@ Connection con = null;
 try{
 	Class.forName("com.mysql.jdbc.Driver"); 
 	con = Connections.getDatabaseConnectionPath();
-	String query ="Update  Anket SET aktif = ? WHERE ID = ? ";
+	String query ="Update  AnketOzellik SET ozellikDurum = ? WHERE ozellikId = ? AND anketId=? ";
 	PreparedStatement st = con.prepareStatement(query);
-	st.setBoolean(1, true);
-	st.setInt(2, anketid);
+	st.setInt(1, 1);
+	st.setInt(2,2);//anket aktif
+	st.setInt(3, anketid);
 	st.execute();
 	
 	query = "Select KullaniciEmail from AnketDavet where anketId = ? AND MailGonderildi=?";
@@ -45,6 +46,8 @@ try{
 		emailler[i] = lstEmail.get(i);
 	}
 	MailListener.MailEkle(new DavetMail(emailler,anketid,username));
+	response.sendRedirect("Anket.jsp?anketid="+anketid);
+	
 }
 catch(Exception ex){
 	ex.printStackTrace();

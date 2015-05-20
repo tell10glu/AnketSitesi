@@ -3,8 +3,6 @@ package yapiPackage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Queue;
@@ -28,7 +26,6 @@ public class MailListener implements ServletContextListener {
 	}
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		System.out.println("basladi");
 		mailListesi = new LinkedList<DavetMail>();
 		
 		MailGonder.start();

@@ -22,7 +22,7 @@ public class ChartOlustur {
 			Statement statement = con.prepareStatement(query);
 			ResultSet set = statement.executeQuery(query);
 			while(set.next()){
-				sayi=set.getInt(0);
+				sayi=set.getInt("id");
 				listem.add(Integer.toString(sayi));
 			}	
 		}catch(ClassNotFoundException ex){
@@ -49,7 +49,7 @@ public class ChartOlustur {
 			Statement statement = con.prepareStatement(query);
 			ResultSet set = statement.executeQuery(query);
 			while(set.next()){
-				sayi=set.getInt(0);
+				sayi=set.getInt(1);
 			}	
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();

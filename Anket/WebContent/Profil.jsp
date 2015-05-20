@@ -13,9 +13,7 @@
 		return;
 	}else{
 		userid = (Integer)session.getAttribute("userid");
-		System.out.println("burdayim");
 		email = (String)session.getAttribute("useremail");
-		System.out.println("burdayim");
 	}
 	
 %>
@@ -39,7 +37,6 @@ th b i{
 		<li><a href='AnaSayfa.jsp'>Ana Sayfa</a></li>
 		<li><a href='Profil.jsp'>Profil</a></li>
 		<li><a href='YeniAnket.jsp'>Anket Oluştur</a></li>
-		<li><a href='AnketDoldur.jsp'>Anket Doldur</a></li>
 		<li><a href='CikisYap.jsp'>Çıkış Yap</a></li>
 	</ul>
 	<div id="main">

@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Kullanici"%>
 <%@page import="yapiPackage.Connections"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="yapiPackage.Soru"%>
@@ -12,20 +13,53 @@
 	//Kişi Anket Sahibi mi 
 	//Anket Aktif mi ? değilse sayfada kalabilir aktif ise başka bir sayfa görüntüle.
 	//AnketID var mı 
+	String username =(String)session.getAttribute("username");
+	String email = null;
+	int userid  =-1;
+	if(username==null || username.equals("")){
+		response.sendRedirect("KullaniciGiris.jsp");
+		
+		return;
+	}else{
+		userid = (Integer)session.getAttribute("userid");
+		email = (String)session.getAttribute("useremail");
+	}
 	if(request.getParameter("anketid")==null){
 		response.sendRedirect("AnketGirisOlustur.jsp");
 		return ;
 	}
-	int anketid = Integer.parseInt(request.getParameter("anketid"));
 
+	int anketid = -1;
+	try{
+
+		anketid = Integer.parseInt(request.getParameter("anketid"));
+		response.sendRedirect("AnaSayfa.jsp");
+		return;
+	}catch(Exception ex){
+		ex.printStackTrace();
+	}
 	Anket anket = Anket.anketiGetir(anketid); 
+	if(anket==null){
+		response.sendRedirect("AnaSayfa.jsp");
+		return;
+	}
+	if(anket.getKullaniciId()!=userid){
+		response.sendRedirect("Profil.jsp");
+		return;
+	}
+	if(anket.getAnketOzellik().getOzellikId()==2 && anket.getAnketOzellik().getOzellikDurum()==1){
+		response.sendRedirect("Anket?anketid="+anketid);
+		return;
+	}
 	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
+<link rel="stylesheet" href="Site.css">
+<script src="hoverjs.js"></script>
+<link rel="stylesheet" href="hover.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
 function soruSil(id){
@@ -134,7 +168,7 @@ function soruEkleKontrol(){
 	<div id="anketbilgileri" class="gradientBoxesWithOuterShadows">
 	<p>Anket Bilgileri</p>
 		<div id="bilgiler">
-				out.println(anket.toString());
+				<%out.print(anket.toString()); %>
 		</div>
 	<input type="button" id="hideShowAnketBilgileri" value="Anket Bilgilerini Gizle/Göster">
 	</div>
@@ -208,9 +242,16 @@ function soruEkleKontrol(){
 	</form>
 	</div>
 	<div>
+	
 	<form name="anketKaydet" action="AnketKayit.jsp" onsubmit="return anketiKaydet();"  method="POST" >
-		<input type ="hidden" name="anketid" value='<%out.print(anketid);%>'>
-		<button type="submit" name="anketkayitet" style="width:100%;height:100px;">Anketi Kaydet</button>
+	<%
+		if(lstSoru.size()<5){
+			out.print("Ankete EN AZ 5 soru eklemelisiniz.");
+		}else{
+			out.print("<input type='hidden' name='anketid' value='"+anketid+"'>");	
+			out.print("<button type='submit' name='anketkayitet' style='width:100%;height:100px;>Anketi Kaydet</button>");
+		}
+	%>
 	</form>
 	</div>
 	

@@ -1,5 +1,0 @@
-Eksikler 
-1- Veritabanına eklenecek date formatı belirlenmeli, IP KUllanım izin yerine normalizasyon yapılmalı
-2- Kategori listelemede alt kategoriler ve normal kategoriler düzgün listelenmeli
-3- Profilim sayfasında kullanıcının kendi anketleri / biten anketleri listelenmeli ,AJAX ILE ! 
-4- 

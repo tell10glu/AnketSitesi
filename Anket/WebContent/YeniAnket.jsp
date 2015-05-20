@@ -35,7 +35,6 @@ today = format.format(new Date());
 
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
   
   <link rel="stylesheet" href="Site.css">
   <script type="text/javascript">
@@ -126,8 +125,15 @@ today = format.format(new Date());
 	            <input name="bitistarihi" id="bitistarihi" type="text" style="color:black;"  >
 	        </div>
 	        <div class="pure-control-group">
-	            <label for="name">IP Kullanim izin :</label>
-	            <input name="ipkullanim" id="ipkullanim" type="checkbox" style="color:black;" >
+	            <label for="name">IP Kullanim :</label>
+	           	<select id="ipkullanim" name="ipkullanim" onchange="soruTipiSecildiginde()">
+	  			<option value='0'>Sınırsız</option>
+	  			<option value='1'>1 Dakika </option>
+	  			<option value='2'>2 Dakika</option>
+	  			<option value='3'>5 Dakika</option>
+	  			<option value='4'>10 Dakika</option>
+	  			<option value='5'>30 Dakika</option>
+	  			</select>
 	        </div>
 	        <div class= "pure-control-group">
 	        	<label for="name">Kategoriler : </label>
@@ -139,7 +145,6 @@ today = format.format(new Date());
 	        				if(listKategori.get(i).getAltKategori()!=null){
 		        				for( int j=0;j<listKategori.get(i).getAltKategori().size();j++){
 		        					Kategoriler kat  = listKategori.get(i).getAltKategori().get(j);
-		        					
 		        					out.print(" <input type='checkbox' name='kategori' value="+kat.getId()+">"+kat.getKategoriAdi()+"<br>");
 			        	
 		        				}
@@ -153,7 +158,7 @@ today = format.format(new Date());
 	        </div>
 	        <div class="pure-control-group">
 	            <label for="name">Herkese Açık</label>
-	        	<input name="HerkesGorebilir" id="HerkesGorebilir" type="checkbox" style="color:black;">
+	        	<input name="halkaacik" id="halkaacik" type="checkbox" value="1"style="color:black;">
 	        </div>
 	        <div id="anketdavetlistesi">
 	        	<div id="emailler">Davet Edilecek E-Posta Listesi</div>

@@ -10,10 +10,6 @@ if(username==null || username.equals("")){
 	return;
 }
 int useridStr = (int)session.getAttribute("userid");
-/*if(useridStr==null){
-	response.sendRedirect("KullaniciGiris.jsp");
-	return;
-}*/
 int userid = useridStr;//Integer.parseInt(useridStr);
 	if(request.getParameter("anketid")==null){
 		response.sendRedirect("Profil.jsp");
@@ -43,7 +39,6 @@ int userid = useridStr;//Integer.parseInt(useridStr);
 		System.out.println(listCevaplar.get(i));
 		String cevaptanSonrasi = listCevaplar.get(i).split(";;;")[1];
 		System.out.println(cevaptanSonrasi);
-		//cevaptanSonrasi = cevaptanSonrasi.substring(5);//Cevap kelimesi oldugu icin 5 ten sonraki degerleri alinr.
 		int cevapId = Integer.parseInt(cevaptanSonrasi);
 		try{
 			con = Connections.getDatabaseConnectionPath();

@@ -28,19 +28,21 @@
 	}catch(Exception ex){
 		ex.printStackTrace();
 		response.sendRedirect("Profil.jsp");
+		return;
 	}	
 	Anket anket = Anket.anketiGetir(anketid);
 	if(anket==null){
 		response.sendRedirect("Profil.jsp");
+		return;
 	}
-	if(userID==anket.getKullaniciId() && anket.isAktif()){
-		out.print("Anket Aktif Durumda . Bu durumda ekleme çıkartma yapılamaz!");
+	System.out.println(anket.getAnketOzellik());
+	
+	if(userID==anket.getKullaniciId() && (anket.getAnketOzellik().getOzellikId()==2 && anket.getAnketOzellik().getOzellikDurum()==1)){
+		response.sendRedirect("AnketSonuc.jsp?anketid="+anketid);
 		return;
 	}
 	if(anket.getBitisTarihi().before(new Date())){
-		out.println("Anketin Tarihi Geçmiş");
-		// rapor sayfasına yönlendir.
-		
+		response.sendRedirect("AnketSonuc.jsp?anketid="+anketid);
 		return;
 	}
 %>
@@ -49,22 +51,54 @@
 <head>
 <link rel="stylesheet" href="Site.css">
 <script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+<script type="PopupJavascript.js"></script>
 <script type="text/javascript">
 function validPost(){
 	return true;
 }
-$(document).ready(function(){
-	$("#anketbutton").click({
-		
-	});
-});
+function getElementsByClassName(classname,tag) {
+	 if(!tag) tag = "*";
+	 var anchs =  document.getElementsByTagName(tag);
+	 var total_anchs = anchs.length;
+	 var regexp = new RegExp('\\b' + classname + '\\b');
+	 var class_items = new Array()
+	 
+	 for(var i=0;i<total_anchs;i++) { //Go thru all the links seaching for the class name
+	  var this_item = anchs[i];
+	  if(regexp.test(this_item.className)) {
+	   class_items.push(this_item);
+	  }
+	 }
+	 return class_items;
+	}
+function openPopup() {
+var url = this.href;
+window.open(url, "popup_id", "scrollbars,resizable,width=200,height=400");
+return false;
+}
+function init() {
+var popups = getElementsByClassName("popup");
+for(var i=0;i<popups.length;i++) {
+ popups[i].onclick=openPopup;
+}
+}
+window.onload=init;
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><%out.print(anket.getAnketAdi()); %></title>
 </head>
 <body>
+	<div id="anketonbilgiler" class="gradientBoxesWithOuterShadows">
+		<%
+		out.print(anket.toString());
+		if(userID!=anket.getKullaniciId()){
+			out.print("<a href='AnketSikayet.jsp?anketid="+anketid+"' class='popup'>Anketi Sikayet Etmek İçin Buraya Tıklayınız</a>");
+		}
+		%>
+	</div>
 	<form onsubmit="return validPost()" method="get" action="AnketTamamla.jsp">
 		<div id="sorular">
+			
 			<div class ="gradientBoxesWithOuterShadows">
 			<%
 				ArrayList<Soru> lst = Soru.anketSoruListesi(anketid); 

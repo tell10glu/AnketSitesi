@@ -91,7 +91,7 @@ background: -moz-linear-gradient(top, white 0%, white 55%, #D5E4F3 130%);
 						</tr>
 					</thead>
 						<%
-						ArrayList<Anket> lstTumAnketler = Anket.anketListesi("Select * From Anket");
+						ArrayList<Anket> lstTumAnketler = Anket.anketListesi("Select * From Anket where Anket.KullaniciID != "+(Integer)session.getAttribute("userid"));
 						System.out.println(lstAnket.size());
 							for(int i =0;i<lstTumAnketler.size();i++){
 								Anket anketim = lstTumAnketler.get(i);

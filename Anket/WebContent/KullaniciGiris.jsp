@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Log"%>
 <%@page import="yapiPackage.MailListener"%>
 <%@page import="yapiPackage.DavetMail"%>
 <%@page import="yapiPackage.Anket"%>
@@ -7,10 +8,16 @@
 		<%
 String username = request.getParameter("username");
 String password = request.getParameter("password");
+String ipAddress  = request.getHeader("X-FORWARDED-FOR");
+if(ipAddress == null)
+{
+  ipAddress = request.getRemoteAddr();
+}
 if(username!=null && password!=null){
 	try{
 		Kullanici kul = Kullanici.kullaniciGiris(username, password);
 		if(kul==null){
+			Log.loginError(ipAddress+" adresinden yanlış kullanıcı girişi");
 			out.println("Kullanici Giris Hatali!");
 		}else{
 			session.setAttribute("username", username);
@@ -18,8 +25,10 @@ if(username!=null && password!=null){
 			session.setAttribute("userid",kul.getKullaniciId());
 			session.setAttribute("userrole",kul.getRolId());
 			session.setAttribute("useremail",kul.getEmail());
+		
+			Log.i(username+" isimli kullanici "+ipAddress+"noktasindan giris yapti");
 			response.sendRedirect("Profil.jsp");
-			
+			return;
 		}
 	}catch(Exception ex){
 		
@@ -27,6 +36,7 @@ if(username!=null && password!=null){
 	}
 }else{
 	if(session.getAttribute("username")!=null ){
+		
 		response.sendRedirect("Profil.jsp");	
 	}
 }

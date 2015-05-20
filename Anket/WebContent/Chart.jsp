@@ -40,7 +40,6 @@ List<String> sayiList = ChartOlustur.charthesapla(soruid);
         	var y=parseInt(numbers[i]);
            data.addRow([x,y]);
         };
-
         // Set chart options
         var options = {'title':sorum,
                        'width':400,

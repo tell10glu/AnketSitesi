@@ -6,25 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class Anket {
-	int id;
-	int kullaniciId;
-	String anketAdi;
-	boolean aktif;
-	public boolean isAktif(){
-		return aktif;
-	}
-	public void setAktif(int userid){
-		if(userid==kullaniciId){
-
-			this.aktif = true;
-			// veritabanı güncelleme yap
+	private int id;
+	private int kullaniciId;
+	private String anketAdi;
+	private Date koyulmaTarihi,bitisTarihi;
+	private AnketOzellik anketOzellik;
+	public AnketOzellik getAnketOzellik(){
+		if(anketOzellik==null){
+			this.anketOzellik = anketOzellikleriniGetir();
 		}
+		return anketOzellik;
 	}
-	Date koyulmaTarihi,bitisTarihi;
 	public int getId() {
 		return id;
 	}
@@ -40,35 +35,19 @@ public class Anket {
 	public Date getBitisTarihi() {
 		return bitisTarihi;
 	}
-	public boolean isIpKullanimIzin() {
-		return ipKullanimIzin;
-	}
-	boolean ipKullanimIzin;
 	public static ArrayList<Anket> anketListesiGetir(){
 		ArrayList<Anket> anket = new ArrayList<Anket>();
 		return anket;
-		
 	}
 	public Anket(int id, int kullaniciId, String anketAdi, Date koyulmaTarihi,
-			Date bitisTarihi, boolean ipKullanimIzin) {
+			Date bitisTarihi) {
 		super();
 		this.id = id;
 		this.kullaniciId = kullaniciId;
 		this.anketAdi = anketAdi;
 		this.koyulmaTarihi = koyulmaTarihi;
 		this.bitisTarihi = bitisTarihi;
-		this.ipKullanimIzin = ipKullanimIzin;
-	}
-	public Anket(int id, int kullaniciId, String anketAdi, Date koyulmaTarihi,
-			Date bitisTarihi, boolean ipKullanimIzin,boolean aktif) {
-		super();
-		this.id = id;
-		this.kullaniciId = kullaniciId;
-		this.anketAdi = anketAdi;
-		this.koyulmaTarihi = koyulmaTarihi;
-		this.bitisTarihi = bitisTarihi;
-		this.ipKullanimIzin = ipKullanimIzin;
-		this.aktif = aktif;
+		this.anketOzellik = anketOzellikleriniGetir();
 	}
 	public static Anket anketiGetir(int anketID){
 		Anket anket = null;
@@ -80,7 +59,8 @@ public class Anket {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			if(rs.next()){
-				anket = new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7));
+				anket = new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5));
+				
 			}
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();
@@ -109,7 +89,7 @@ public class Anket {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			while(rs.next()){
-				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7)));
+				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5)));
 			}
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();
@@ -135,7 +115,7 @@ public class Anket {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			while(rs.next()){
-				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7)));
+				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5)));
 			}
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();
@@ -164,7 +144,7 @@ public class Anket {
 			st.setString(1, email);
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
-				Anket anket = new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7));
+				Anket anket = new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5));
 				System.out.println(anket);
 				list.add(anket);
 			}
@@ -184,7 +164,35 @@ public class Anket {
 		}
 		return list;
 	}
-	
+	private AnketOzellik anketOzellikleriniGetir(){
+		AnketOzellik ozellik = null;
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			String query = "select * from AnketOzellik where anketId = "+this.id;
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			if(rs.next()){
+				ozellik = new AnketOzellik(rs.getInt(3), rs.getInt(1), rs.getInt(2));
+			}
+			
+			
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return ozellik;
+	}
 	public static ArrayList<Anket> anketListesiGetir(int kullaniciid){
 		ArrayList<Anket> list = new ArrayList<Anket>();
 		Connection con = null;
@@ -195,7 +203,7 @@ public class Anket {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			while(rs.next()){
-				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getBoolean(6),rs.getBoolean(7)));
+				list.add(new Anket(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4), rs.getDate(5)));
 			}
 			
 			

@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="yapiPackage.Kullanici"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -13,8 +14,23 @@ String password = request.getParameter("password");
 String email = request.getParameter("email");
 	if(username!=null && password !=null && email!=null){
 		int rol = 2;// Burada bir normalizasyon yapilacak . 
-
+		ArrayList<Kullanici> listKullanici = Kullanici.kullaniciListesi();
+		int i =0;
+		boolean controlValues = false;
+		while(i<listKullanici.size() && !controlValues){
+			if(listKullanici.get(i).getKullaniciAdi().equals(username)){
+				response.sendRedirect("KayitOl.jsp?error=1");
+				return;
+			}else if (listKullanici.get(i).getEmail().equals(email)){
+				response.sendRedirect("KayitOl.jsp?error=2");
+				return;
+			}else{
+				i++;
+			}
+			
+		}
 		Kullanici.kullaniciEkle(username, password, email, rol);
+		response.sendRedirect("KullaniciGiris.jsp");
 	}
 
 %>
@@ -63,6 +79,15 @@ return true;
 				Email : <br />
 				<input type="text" name="email"> <br /><br />
 				<input type="submit" value="Kayıt Ol"><br /><br />
+				<%
+					if(request.getParameter("error")!=null){
+						if(request.getParameter("error").equals("1")){
+							out.println("Başka kullanıcı adı deneyin");
+						}else if(request.getParameter("error").equals("2")){
+							out.println("Email adresi kayitli!");
+						}
+					}
+				%>
 	</form>
 </body>
 

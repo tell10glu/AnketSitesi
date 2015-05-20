@@ -10,8 +10,27 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <listener>
-  	<listener-class>
+    <listener-class>
   		yapiPackage.MailListener
   	</listener-class>
   </listener>
+  <servlet>
+    <description></description>
+    <servlet-name>chartServlets</servlet-name>
+    <servlet-class>yapiPackage.chartServlets</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>chartServlets</servlet-name>
+    <url-pattern>/chartServlets</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>XmlServlet</display-name>
+    <servlet-name>XmlServlet</servlet-name>
+    <servlet-class>yapiPackage.XmlServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>XmlServlet</servlet-name>
+    <url-pattern>/XmlServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
