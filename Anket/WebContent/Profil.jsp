@@ -31,6 +31,14 @@ th b i{
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="Site.css" rel="stylesheet" >
 <title>Profil</title>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function(){
+    $("#myTable").DataTable();
+});
+</script>
 </head>
 <body>
 	<ul id = "menu">
@@ -50,25 +58,37 @@ th b i{
 		
 		<fieldset>
 			<legend>Anket Bilgileri</legend>
-				<table>
+				<table id="myTable">
+				<thead>
 				<tr>
 						<th><b><i>Anket Adı</i></b></th>
 						<th><b><i>Koyulma Tarihi</i></b></th>
 						<th><b><i>Bitis Tarihi</i></b></th>
-					</tr>
+				</tr>
+				</thead>
+				<tbody>
 					<%
+					
 					// Kullanıcının anketleri , halka açık anketler , vs vs ayrı ayrı listelenmeli
 						ArrayList<Anket> anketlerim = Anket.anketListesiGetir(userid);
 						for(int i =0;i<anketlerim.size();i++){
 							Anket anketim = anketlerim.get(i);
+							String aktiflik  = ":(Aktif Degil)";
+							if(anketim.aktiflikDurumunuGetir()){
+								aktiflik = ":(Aktif)";
+							}
+							
 							String myout = "Anket.jsp?anketid="+String.valueOf(anketim.getId());
 							out.print("<tr>"+
-							"<th><b><i><a href ="+myout+">"+anketim.getAnketAdi()+"</a></i></b></th>"+
+							"<th><b><i><a href ="+myout+">"+anketim.getAnketAdi()+aktiflik 
+							+"</a></i></b></th>"+
 							"<th><b><i>"+anketim.getKoyulmaTarihi()+"</i></b></th>"+
 							"<th><b><i>"+anketim.getBitisTarihi()+"</i></b></th></tr>");
 						}
 					%>
 					
+					
+				</tbody>
 				</table>
 		</fieldset>
 		

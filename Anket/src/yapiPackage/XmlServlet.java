@@ -81,12 +81,12 @@ public class XmlServlet extends HttpServlet {
 			System.out.println(bl.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.systemError(e.getMessage().toString());
 			// TODO: handle exception
 		}
 	}
 	private Element anketinSoruLariniGetir(Document doc,int anketid){
 		ArrayList<Soru> sorularim = Soru.anketSoruListesi(anketid);
-		
 		Element sorular = doc.createElement("Sorular");
 		for(int i=0;i<sorularim.size();i++){
 			Element soru = doc.createElement("Soru"+String.valueOf(i+1));

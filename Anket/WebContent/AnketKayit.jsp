@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Log"%>
 <%@page import="java.lang.reflect.Array"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="yapiPackage.DavetMail"%>
@@ -51,10 +52,12 @@ try{
 }
 catch(Exception ex){
 	ex.printStackTrace();
+	Log.systemError(ex.getMessage().toString());
 }finally{
 	try{
 		con.close();
 	}catch(Exception e){
+		Log.systemError(e.getMessage().toString());
 		e.printStackTrace();	
 	}
 }

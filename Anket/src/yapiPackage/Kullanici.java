@@ -116,12 +116,14 @@ public class Kullanici {
 			ex.printStackTrace();
 		} 
 		catch(Exception e){
+			Log.systemError(e.getMessage().toString());
 			e.getMessage();
 		}
 		finally{
 			try {
 				con.close();
 			} catch (Exception e) {
+				Log.systemError(e.getMessage().toString());
 				// TODO: handle exception
 			}
 		}
@@ -143,6 +145,7 @@ public class Kullanici {
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();
 		} catch (SQLException e) {
+			Log.systemError(e.getMessage().toString());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -156,6 +159,34 @@ public class Kullanici {
 		}
 		
 		return alist;
+	}
+	public static String kullaniciAdiniGetir(int id){
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			String query = "select KullaniciAdi from Kullanici  where id = "+id;
+			Statement st = con.createStatement();
+			ResultSet rs=st.executeQuery(query);
+			if(rs.next()) { 
+				return rs.getString(1);
+			} 
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} catch (SQLException e) {
+			Log.systemError(e.getMessage().toString());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				con.close();
+				
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		return null;
 	}
 	public static String getPasswordHash(String str){
 		long total = 0;

@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="yapiPackage.Connections"%>
@@ -14,7 +15,7 @@
 	// Anket Aktif mi ? Aktif değil ise sahibi mi ? sahibi değilse başka sayfaya yönelt.
 	// Anket Herkese Açık mı veya Davet Listesinde Kullanici Adi var mi ? (Anket Sahibi mi ?)
 	// Anket süresi devam ediyor ise anketi , etmiyor ise raporları göster .
-	
+		
 	if(session.getAttribute("userid")==null){
 		response.sendRedirect("KullaniciGiris.jsp");
 		return;
@@ -23,29 +24,40 @@
 	int anketid = -1;
 	String anketidStr = request.getParameter("anketid");
 	if(anketidStr==null){
-		response.sendRedirect("Profil.jsp");
+		response.sendRedirect("AnaSayfa.jsp");
 		return;
 	}
 	try{
 		anketid = Integer.parseInt(anketidStr);
 	}catch(Exception ex){
 		ex.printStackTrace();
-		response.sendRedirect("Profil.jsp");
+		response.sendRedirect("AnaSayfa.jsp");
 		return;
 	}	
 	Anket anket = Anket.anketiGetir(anketid);
 	if(anket==null){
-		response.sendRedirect("Profil.jsp");
+		response.sendRedirect("AnaSayfa.jsp");
 		return;
 	}
-	//Kullanıcı anket sahibi mi ? sahibi ise sayfada kalabilir değil ise anket aktif değilse sonuçları görebilir.
-	// burada ekstra kontrol yap ! anket herkese açıkmı yoksa davet listesi var mı ?
 	if(userID!=anket.getKullaniciId()){
-		if( anket.getAnketOzellik().getOzellikId()==2 && anket.getAnketOzellik().getOzellikDurum()==1){
-			response.sendRedirect("Anket?anketid="+anketid);
+		if(!anket.halkAcikDurumunuGetir()){
+			if(!anket.kullaniciAnketeDavetlimi((String)session.getAttribute("useremail"), anket.getId())){
+				response.sendRedirect("AnaSayfa.jsp");
+				return;
+			}
+		}
+		if(!anket.aktiflikDurumunuGetir()){
+			response.sendRedirect("AnaSayfa.jsp");
 			return;
 		}
-		
+		if (!Anket.kullaniciAnketiCozmusmu(userID, anket.getId())){
+			response.sendRedirect("Anket.jsp?anketid="+anketid);
+			return;
+		}
+	}
+	if(anket.engelDurumuGetir()){
+		out.print("Bu anket admin tarafından engellenmiştir...");
+		return;
 	}
 	
 %>
@@ -174,7 +186,7 @@
 	<select id="sorum" name="sorum" onchange="soruTipiSecildiginde()">
 	  			<option value='SecimYap'>Lütfen Bir Seçim Yapınız</option>
 	  				<%
-	  				ArrayList<Soru> listSorular = Soru.anketSoruListesi(13);
+	  				ArrayList<Soru> listSorular = Soru.anketSoruListesi(anketid);
 	  				for(int i=0;i<listSorular.size();i++){
 	  					out.print("<option value = '"+listSorular.get(i).getId()+"' >"+listSorular.get(i).getSoruYazisi()+"</option>");
 	  				}

@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Log"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
@@ -9,7 +10,7 @@ if(username==null || username.equals("")){
 	response.sendRedirect("KullaniciGiris.jsp");
 	return;
 }
-int useridStr = (int)session.getAttribute("userid");
+int useridStr = (Integer)session.getAttribute("userid");
 int userid = useridStr;//Integer.parseInt(useridStr);
 	if(request.getParameter("anketid")==null){
 		response.sendRedirect("Profil.jsp");
@@ -27,15 +28,24 @@ int userid = useridStr;//Integer.parseInt(useridStr);
 	ArrayList<String> listCevaplar = new ArrayList<String>();
 	java.util.Enumeration<String> params = request.getParameterNames();
 	while(params.hasMoreElements()){
+		
 		String paramName = (String) params.nextElement();
 		if(paramName.startsWith("cevap")){
-			String paramValue = request.getParameter(paramName);
-			listCevaplar.add(paramName+";;;"+paramValue);
+			System.out.println(paramName);
+			String[] cevaplar = request.getParameterValues(paramName);
+			for(int i=0;i<cevaplar.length;i++){
+				System.out.println(cevaplar[i]);
+				String paramValue = request.getParameter(cevaplar[i]);
+				listCevaplar.add(paramName+";;;"+cevaplar[i]);
+			}
+			
 		}
 		
 	}
 	Class.forName("com.mysql.jdbc.Driver"); 
+	System.out.println(listCevaplar.size());
 	for(int i =0;i<listCevaplar.size();i++){
+		
 		System.out.println(listCevaplar.get(i));
 		String cevaptanSonrasi = listCevaplar.get(i).split(";;;")[1];
 		System.out.println(cevaptanSonrasi);
@@ -51,6 +61,7 @@ int userid = useridStr;//Integer.parseInt(useridStr);
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
+			Log.systemError(ex.getMessage().toString());
 		}finally{
 			try{
 				con.close();
@@ -59,4 +70,5 @@ int userid = useridStr;//Integer.parseInt(useridStr);
 			}
 		}
 	}
+	response.sendRedirect("AnaSayfa.jsp");
 %>

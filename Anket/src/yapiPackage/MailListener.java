@@ -58,7 +58,7 @@ public class MailListener implements ServletContextListener {
 					Message message = new MimeMessage(session);
 					message.setFrom(new InternetAddress("abdullahtellioglu93@gmail.com"));
 					message.setSubject("Yeni Anket Daveti");
-					message.setText(mail.davetEdenKullaniciAdi +" isimli kullanici sizi ankete davet etti.\n http://www.huseyin.com/Anket?anketid="+mail.anketid);
+					message.setText(mail.davetEdenKullaniciAdi +" isimli kullanici sizi ankete davet etti.\n http://www.anketsitem.com/Anket?anketid="+mail.anketid);
 					for(int i =0;i<mail.mailler.length;i++){
 						message.setRecipients(Message.RecipientType.TO,
 								InternetAddress.parse(mail.mailler[i]));
@@ -66,7 +66,6 @@ public class MailListener implements ServletContextListener {
 							VeritabaniDuzenle(mail.mailler[i],mail.anketid);
 					}
 					counter=0;
-					System.out.println("Mesaj Gönderildi");
 				} catch(Exception ex){
 					counter++;
 					ex.printStackTrace();
@@ -96,6 +95,7 @@ public class MailListener implements ServletContextListener {
 		} 
 		catch(Exception e){
 			e.getMessage();
+			Log.systemError(e.getMessage().toString());
 		}
 		finally{
 			try {

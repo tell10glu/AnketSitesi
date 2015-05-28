@@ -4,5 +4,5 @@
 	session.removeAttribute("userid");
 	session.removeAttribute("userrole");
 	response.sendRedirect("KullaniciGiris.jsp");
-
+	
 %>

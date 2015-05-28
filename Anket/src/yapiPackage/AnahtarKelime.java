@@ -66,6 +66,7 @@ public class AnahtarKelime {
 			}catch(ClassNotFoundException ex){
 				ex.printStackTrace();
 			} catch (SQLException e) {
+				Log.systemError(e.getMessage().toString());
 				e.printStackTrace();
 			}
 		}else{
@@ -80,6 +81,7 @@ public class AnahtarKelime {
 			}catch(ClassNotFoundException ex){
 				ex.printStackTrace();
 			} catch (SQLException e) {
+				Log.systemError(e.getMessage().toString());
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -102,6 +104,7 @@ public class AnahtarKelime {
 				statement.setInt(1, kelime.getId());
 				statement.execute();
 			}catch(Exception ex){
+				Log.systemError(ex.getMessage().toString());
 				ex.printStackTrace();
 			}
 			
@@ -128,6 +131,7 @@ public class AnahtarKelime {
 				statement.setString(1, kelime);
 				statement.execute();
 			}catch(Exception ex){
+				Log.systemError(ex.getMessage().toString());
 				ex.printStackTrace();
 			}
 			
@@ -154,6 +158,7 @@ public class AnahtarKelime {
 				statement.setString(2, kelime.getKey());
 				statement.execute();
 			}catch(Exception ex){
+				Log.systemError(ex.getMessage().toString());
 				ex.printStackTrace();
 			}
 		}
@@ -181,15 +186,5 @@ public class AnahtarKelime {
 		return kelimeListesi;
 		
 	}
-	public static ArrayList<Anket> anahtarKelimeyeAitAnketleriGetir(AnahtarKelime kelime){
-		ArrayList<Anket> alist = new ArrayList<Anket>();
-		
-		
-		return alist;
-	}
-	public static ArrayList<Anket> anahtarKelimeyeAitAnketleriGetir(String[] kelimeler){
-		ArrayList<Anket> alist = new ArrayList<Anket>();
-		
-		return alist;
-	}
+
 }

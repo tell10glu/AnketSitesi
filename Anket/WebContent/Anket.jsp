@@ -20,31 +20,52 @@
 	int anketid = -1;
 	String anketidStr = request.getParameter("anketid");
 	if(anketidStr==null){
-		response.sendRedirect("Profil.jsp");
+		response.sendRedirect("AnaSayfa.jsp");
 		return;
 	}
 	try{
 		anketid = Integer.parseInt(anketidStr);
 	}catch(Exception ex){
 		ex.printStackTrace();
-		response.sendRedirect("Profil.jsp");
+		response.sendRedirect("AnaSayfa.jsp");
 		return;
 	}	
 	Anket anket = Anket.anketiGetir(anketid);
 	if(anket==null){
-		response.sendRedirect("Profil.jsp");
+		response.sendRedirect("AnaSayfa.jsp");
 		return;
 	}
-	System.out.println(anket.getAnketOzellik());
+	if(userID==anket.getKullaniciId()){
+		if(anket.aktiflikDurumunuGetir()){
+			response.sendRedirect("AnketSonuc.jsp?anketid="+anketid);
+			return;
+		}
+	}else{
+		if(!anket.halkAcikDurumunuGetir()){
+			if(!anket.kullaniciAnketeDavetlimi((String)session.getAttribute("useremail"), anket.getId())){
+				response.sendRedirect("AnaSayfa.jsp");
+				return;
+			}
+		}
+		if(!anket.aktiflikDurumunuGetir()){
+			response.sendRedirect("AnaSayfa.jsp");
+			return;
+		}
+		if (Anket.kullaniciAnketiCozmusmu(userID, anket.getId())){
+			response.sendRedirect("AnketSonuc.jsp?anketid="+anketid);
+			return;
+		}
+		if(anket.getBitisTarihi().before(new Date())){
+			response.sendRedirect("AnketSonuc.jsp?anketid="+anketid);
+			return;
+		}
+	}
+	if(anket.engelDurumuGetir()){
+		out.print("Bu anket admin tarafından engellenmiştir...");
+		return;
+	}
 	
-	if(userID==anket.getKullaniciId() && (anket.getAnketOzellik().getOzellikId()==2 && anket.getAnketOzellik().getOzellikDurum()==1)){
-		response.sendRedirect("AnketSonuc.jsp?anketid="+anketid);
-		return;
-	}
-	if(anket.getBitisTarihi().before(new Date())){
-		response.sendRedirect("AnketSonuc.jsp?anketid="+anketid);
-		return;
-	}
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

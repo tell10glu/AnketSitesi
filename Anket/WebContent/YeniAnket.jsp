@@ -31,7 +31,7 @@ today = format.format(new Date());
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
+<script src="jquery-1.11.3.min.js"></script>
 
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -52,6 +52,7 @@ today = format.format(new Date());
 	  $('#sorudiv').hide();
 	 
   });*/
+  emailcheck = true;
   function validPost(){
 	  var selected = [];
 	  $('#kategorilistesi input:checked').each(function() {
@@ -70,25 +71,55 @@ today = format.format(new Date());
 		  alert("Anket Adı Boş Bırakılamaz!");
 		  return false;
 	  }
+	  var bitistarih = bitistarihi.split("/");
+	  
+	  var ay1 = tarihbitis[0];
+	  var gun1 =  tarihbitis[1];
+	  var yil1 = tarihbitis[2];
+	  var baslangictarih = $("#baslangictarihi").val();
+	  var ay2 = baslangictarih[0];
+	  var gun2 = baslangictarih[1];
+	  var yil2 =baslangictarih[2];
+	  if(yil1<yil2){
+		  alert("Bitiş tarihi başlangıç tarihinden sonra olmalıdır!");
+		  return false;
+	  }else {
+		  if(ay1<ay2){
+			  alert("Bitiş tarihi başlangıç tarihinden sonra olmalıdır!");
+			  return false;
+		  }else{
+			  if(gun1<gun2){
+				  alert("Bitiş tarihi başlangıç tarihinden sonra olmalıdır!");
+				  return false;
+			  }
+		  }
+	  }
+	  var halkaacikvalue = $("#halkaacik : selected").val();
+	  if(halkaacikvalue==1){
+		  var count = document.getElementsByName("davetemail").length;
+		  if(davetlisayisi<5){
+			  alert("En az 5 davetli girmelisiniz");
+			  return false;
+		  }
+	  }
+	  return emailcheck;
+	  
   }
   function emailleriKontrolEt(){
-	  emaillerdogrumu = false;
-	var count = document.getElementsByName("email").length;
+	var count = document.getElementsByName("davetemail").length;
+	var sikko = 0;
 	for(var i=0;i<count;i++){
-		var element = document.getElementsByName("email")[i].value;
+		var element = document.getElementsByName("davetemail")[i].value;
 		if(!validateEmail(element)){
-			alert("Email Adresi Doğru Değil");
-			return false;
+			alert((i+1)+".Email Adresi Doğru Değil");
 		}
 	}
-	emaillerdogrumu = true;
-	return true;
   }
   index=1;
   function yeniEmail(){
 		  //$('#emailler').append("<div><input name='email"+index+"' id='email"+index+"' style='color:black;' type='text' onblur='emailleriKontrolEt(this.value);'></div>");
   		  $('#emailler').append("<div><input name='davetemail' style='color:black;' type='text' onblur='emailleriKontrolEt(this.value);'></div>");
-  		  
+  		
 		  index++;
   		  $("emailindex").val(index);
   }
@@ -102,9 +133,9 @@ today = format.format(new Date());
 </head>
 <body>
 	<ul id = "menu">
+		<li><a href='AnaSayfa.jsp'>Anasayfa</a></li>
 		<li><a href='Profil.jsp'>Profil</a></li>
-		<li><a href='AnketOlustur.jsp'>Anket Oluştur</a></li>
-		<li><a href='AnketDoldur.jsp'>Anket Doldur</a></li>
+		<li><a href='YeniAnket.jsp'>Anket Oluştur</a></li>
 		<li><a href='CikisYap.jsp'>Çıkış Yap</a></li>
 	</ul>
 	<div id="#main">
@@ -118,11 +149,16 @@ today = format.format(new Date());
 	        </div>
 	        <div class="pure-control-group">
 	            <label for="name">Başlangıç Tarihi:</label>
-	            <input  style="color:black;"  type="text" value="<%out.print(today);%>" disabled>
+	            <input  style="color:black;" name="baslangictarihi"  type="text" value="<%out.print(today);%>" disabled>
 	        </div>
 	         <div class="pure-control-group">
 	            <label for="name">Bitiş Tarihi:</label>
 	            <input name="bitistarihi" id="bitistarihi" type="text" style="color:black;"  >
+	            <%if(request.getParameter("hata")!=null){
+	            	if(Integer.parseInt(request.getParameter("hata"))==1){
+	            		out.print("<label style='color:red;'>Bitiş tarihi başlangıç tarihinden sonra olmalı!</label>");
+	            	}
+	            } %>
 	        </div>
 	        <div class="pure-control-group">
 	            <label for="name">IP Kullanim :</label>
@@ -158,7 +194,10 @@ today = format.format(new Date());
 	        </div>
 	        <div class="pure-control-group">
 	            <label for="name">Herkese Açık</label>
-	        	<input name="halkaacik" id="halkaacik" type="checkbox" value="1"style="color:black;">
+	            <select name="halkaacik" id="halkaacik">
+	            	<option value="0">Herkes Anketi Görebilir</option> 
+	            	<option value="1">Sadece Davetliler Anketi Görebilir</option>
+	            </select>
 	        </div>
 	        <div id="anketdavetlistesi">
 	        	<div id="emailler">Davet Edilecek E-Posta Listesi</div>

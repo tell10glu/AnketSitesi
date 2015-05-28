@@ -3,21 +3,14 @@ package yapiPackage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.mysql.jdbc.Statement;
-import com.sun.mail.iap.Response;
 public class chartServlets extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -29,6 +22,7 @@ public class chartServlets extends HttpServlet {
 		try {
 			requestId = Integer.parseInt(req.getParameter("soruid"));
 		} catch (Exception e) {
+			Log.systemError(e.getMessage().toString());
 			// TODO: handle exception
 			requestId = 0;
 		}
@@ -36,6 +30,7 @@ public class chartServlets extends HttpServlet {
 			anketid =  Integer.parseInt(req.getParameter("anketid"));
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.systemError(e.getMessage().toString());
 			return;
 			// TODO: handle exception
 		}
@@ -68,12 +63,14 @@ public class chartServlets extends HttpServlet {
 			ex.printStackTrace();
 		} 
 		catch(Exception e){
+			Log.systemError(e.getMessage().toString());
 			e.printStackTrace();
 		}
 		finally{
 			try {
 				con.close();
 			} catch (Exception e) {
+				Log.systemError(e.getMessage().toString());
 				// TODO: handle exception
 			}
 		}

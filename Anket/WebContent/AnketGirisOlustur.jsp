@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Log"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="yapiPackage.Connections"%>
@@ -13,7 +14,6 @@ if(anketadi==null || anketadi.equals("")){
 	response.sendRedirect("YeniAnket.jsp");
 	return;
 }
-
 String baslangictarihi = request.getParameter("baslangictarih");
 String bitistarihi = request.getParameter("bitistarihi");
 String ipKullanim = request.getParameter("ipkullanim");
@@ -21,7 +21,6 @@ String halkaacik = request.getParameter("halkaacik");
 System.out.println(halkaacik);
 String[] str = request.getParameterValues("kategori");
 String[] davetListesi = request.getParameterValues("davetemail");
-
 if(str==null || str.length==0){
 		response.sendRedirect("YeniAnket.jsp?hata=Kategori Girilmeli!&anketadi="+anketadi);
 		return;
@@ -33,12 +32,15 @@ if(str!=null){
 		
 	}
 }
-	
 Connection con = null;
 try{
 	SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 	Date dateBaslangic = format.parse(baslangictarihi);
 	Date dateBitis = format.parse(bitistarihi);
+	if(dateBitis.before(dateBaslangic)){
+		response.sendRedirect("YeniAnket.jsp?hata=1");
+		return;
+	}
 	Class.forName("com.mysql.jdbc.Driver"); 
 	con = Connections.getDatabaseConnectionPath();
 	String query ="insert into Anket (KullaniciID,AnketAdi,KoyulmaTarihi,BitisTarihi) VALUES(?,?,?,?)";// tarihler eklenmedi
@@ -107,6 +109,7 @@ try{
 	ex.printStackTrace();
 } 
 catch(Exception e){
+	Log.systemError(e.getMessage().toString());
 	e.printStackTrace();
 }
 finally{

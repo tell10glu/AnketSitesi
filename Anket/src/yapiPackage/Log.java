@@ -7,7 +7,9 @@ import java.sql.Time;
 public class Log {
 	private static final  String ACTION_INFO = "info";
 	private static final String ACTION_ERROR = "error";
+	private static final String ACTION_SYSTEM_ERROR = "systemerror";
 	private static final String ACTION_USER_LOGIN_ERROR = "loginerror";
+	private static final String ACTION_ANKET_SIKAYET = "anketsikayet";
 	private static void wDb(String cikti,String ACTION){
 		Connection con = null;
 		try{
@@ -24,6 +26,7 @@ public class Log {
 			ex.printStackTrace();
 		} 
 		catch(Exception e){
+			Log.systemError(e.getMessage().toString());
 			e.getMessage();
 		}
 		finally{
@@ -33,6 +36,13 @@ public class Log {
 				// TODO: handle exception
 			}
 		}
+	}
+	public static void anketSikayet(String cikti){
+		wDb(cikti,ACTION_ANKET_SIKAYET);
+	}
+	public static void systemError(String cikti){
+		wDb(cikti,ACTION_SYSTEM_ERROR);
+		
 	}
 	public static void loginError(String cikti){
 		wDb(cikti,ACTION_USER_LOGIN_ERROR);

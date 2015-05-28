@@ -25,13 +25,12 @@ if(username!=null && password!=null){
 			session.setAttribute("userid",kul.getKullaniciId());
 			session.setAttribute("userrole",kul.getRolId());
 			session.setAttribute("useremail",kul.getEmail());
-		
 			Log.i(username+" isimli kullanici "+ipAddress+"noktasindan giris yapti");
 			response.sendRedirect("Profil.jsp");
 			return;
 		}
 	}catch(Exception ex){
-		
+		Log.systemError(ex.getMessage().toString());
 		out.println(ex.getMessage());	
 	}
 }else{

@@ -13,13 +13,8 @@ public class Anket {
 	private int kullaniciId;
 	private String anketAdi;
 	private Date koyulmaTarihi,bitisTarihi;
-	private AnketOzellik anketOzellik;
-	public AnketOzellik getAnketOzellik(){
-		if(anketOzellik==null){
-			this.anketOzellik = anketOzellikleriniGetir();
-		}
-		return anketOzellik;
-	}
+	private ArrayList<AnketOzellik> anketOzellik;
+	
 	public int getId() {
 		return id;
 	}
@@ -67,6 +62,7 @@ public class Anket {
 		} 
 		catch(Exception e){
 			e.getMessage();
+			Log.systemError(e.getMessage().toString());
 		}
 		finally{
 			try {
@@ -164,17 +160,51 @@ public class Anket {
 		}
 		return list;
 	}
-	private AnketOzellik anketOzellikleriniGetir(){
-		AnketOzellik ozellik = null;
+	public boolean kullaniciAnketeDavetlimi(String userMail,int anketid){
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
 			con = Connections.getDatabaseConnectionPath();
-			String query = "select * from AnketOzellik where anketId = "+this.id;
+			String query = "select * from Anket,AnketDavet where AnketDavet.KullaniciEmail = ? AND Anket.ID = AnketDavet.anketId AND Anket.ID=?";
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, userMail);
+			st.setInt(2, anketid);
+			ResultSet rs = st.executeQuery();
+			if(rs.next()){
+				return true;
+			}else{
+				return false;
+			}
+			
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				
+			}
+		}
+		return false;
+	}
+	public boolean aktiflikDurumunuGetir(){
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			String query = "select ozellikDurum from AnketOzellik where AnketOzellik.ozellikId=2 AND anketId = "+this.id;
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			if(rs.next()){
-				ozellik = new AnketOzellik(rs.getInt(3), rs.getInt(1), rs.getInt(2));
+				if(rs.getInt(1)==1){
+					return true;
+				}else{
+					return false;
+				}
 			}
 			
 			
@@ -183,6 +213,167 @@ public class Anket {
 		} 
 		catch(Exception e){
 			e.printStackTrace();
+			Log.systemError(e.getMessage().toString());
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return false;
+	}
+	public boolean halkAcikDurumunuGetir(){
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			String query = "select ozellikDurum from AnketOzellik where  AnketOzellik.ozellikId=4 AND anketId = "+this.id;
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			if(rs.next()){
+				if(rs.getInt(1)==0){
+					return true;
+				}else{
+					return false;
+				}
+			}
+			
+			
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			Log.systemError(e.getMessage().toString());
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return false;
+	}
+	public boolean engelDurumuGetir(){
+		
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			String query = "select ozellikDurum from AnketOzellik where AnketOzellik.ozellikId=3 AND anketId = "+this.id;
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			if(rs.next()){
+				if(rs.getInt(1)==1){
+					return true;
+				}else{
+					return false;
+				}
+			}
+			
+			
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			Log.systemError(e.getMessage().toString());
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return false;
+	}
+	public static 	boolean kullaniciAnketiCozmusmu(int userid,int anketid){
+		Connection con = null;
+		try{
+			String query = "Select Count(*) from Anket,KullaniciCevap,Soru,Cevap,Kullanici where Anket.id = Soru.anketId AND Soru.id = Cevap.soruID AND Kullanici.Id = ? AND Anket.id=? AND KullaniciCevap.kullaniciId = ? ";
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, userid);
+			st.setInt(2, anketid);
+			st.setInt(3,userid);
+			ResultSet rs = st.executeQuery();
+			if(rs.next()){
+				System.out.println(rs.getInt(1));
+				if(rs.getInt(1)==0){
+					return false;
+				}else
+					return true;
+			}
+			
+			
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			Log.systemError(e.getMessage().toString());
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return false;
+	}
+	public void anketiEngelle(){
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			String query ;
+			if(!engelDurumuGetir()){
+				query = "Update AnketOzellik SET ozellikDurum=1 where ozellikId=3  AND  anketId = "+this.id;
+			}else{
+				query = "Update AnketOzellik SET ozellikDurum=0 where ozellikId=3  AND  anketId = "+this.id;
+			}
+			Statement st = con.createStatement();
+			st.executeUpdate(query);
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				con.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
+	private ArrayList<AnketOzellik> anketOzellikleriniGetir(){
+		ArrayList<AnketOzellik> ozellik = new ArrayList<AnketOzellik>();
+		Connection con = null;
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			con = Connections.getDatabaseConnectionPath();
+			String query = "select * from AnketOzellik where anketId = "+this.id;
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while(rs.next()){
+				ozellik.add(new AnketOzellik(rs.getInt(1), rs.getInt(2), rs.getInt(3)));
+			}
+			
+			
+		}catch(ClassNotFoundException ex){
+			ex.printStackTrace();
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			Log.systemError(e.getMessage().toString());
 		}
 		finally{
 			try {

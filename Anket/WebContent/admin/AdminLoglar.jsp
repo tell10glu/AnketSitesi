@@ -1,5 +1,3 @@
-<%@page import="yapiPackage.Kullanici"%>
-<%@page import="yapiPackage.Anket"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="yapiPackage.Connections"%>
@@ -20,18 +18,7 @@ if((Integer)session.getAttribute("userrole")!=1){
 	response.sendRedirect("../KullaniciGiris.jsp");
 	return;
 }
-if(request.getParameter("anketid")!=null){
-	int anketid= -1;
-	try{
-		anketid = Integer.parseInt(request.getParameter("anketid"));
-	}catch(Exception ex){
-		ex.printStackTrace();
-	}
-	if(anketid!=-1){
-		Anket.anketiGetir(anketid).anketiEngelle();
-		
-	}
-}
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -74,37 +61,53 @@ background: -moz-linear-gradient(top, white 0%, white 55%, #D5E4F3 130%);
 		<li><a href='Kullanicilar.jsp'>Kullanicilar</a></li>
 		<li><a href='../CikisYap.jsp'>Cikis Yap</a></li>
 	</ul>
-	
 	<div id="main" style="color:black; " >
-				<div class="gradientBoxesWithOuterShadows" >
-			ANKET ENGELLEMEK ICIN UZERINE BASINIZ!;
-			
-			<table id="MyTableDate">
+				<div class ="gradientBoxesWithOuterShadows" >
+				<p style="font-size:large; margin: auto; font-family: verdana; ">Log listesi</p>
+					<table id="myTable">
 					<thead>
 						<tr>
-							<th>Anket Adı</th>
-							<th>Koyulma Tarihi</th>
-							<th>Bitiş Tarihi</th>
-							<th>Anket Sahibi</th>
-							<th>Ozellikleri</th>
+							<th>Tarih</th>
+							<th>Saat  </th>
+							<th>Aksiyon Adi</th>
+							<th>Cikti</th>
 						</tr>
 					</thead>
+					<tbody>
 						<%
-						ArrayList<Anket> lstTumAnketler = Anket.anketListesi("Select* From Anket");
-							for(int i =0;i<lstTumAnketler.size();i++){
-								Anket anketim = lstTumAnketler.get(i);
-								String anketaktif = anketim.aktiflikDurumunuGetir()?"aktif":"aktif degil";
-								String anketengel = anketim.engelDurumuGetir()?"engel":"engelli degil";
-								String myout = "Anket.jsp?anketid="+String.valueOf(anketim.getId());
+						Connection con = null;
+						try{
+							Class.forName("com.mysql.jdbc.Driver"); 
+							con = Connections.getDatabaseConnectionPath();
+							String query = "Select * from Log";
+							Statement st = con.createStatement();
+							ResultSet rs = st.executeQuery(query);
+							while(rs.next()){
 								out.print("<tr>"+
-								"<td><b><i><a href =Anketler.jsp?anketid="+anketim.getId()+">"+anketim.getAnketAdi()+"</a></b></td>"+
-								"<td><b>"+anketim.getKoyulmaTarihi()+"</b></td>"+
-								"<td><b>"+anketim.getBitisTarihi()+"</b></td>"+
-								"<td><b>"+Kullanici.kullaniciAdiniGetir(anketim.getKullaniciId())+"</a></b></td>"+
-								"<td><b>"+anketaktif+" , "+anketengel+"</a></b></td></tr>");
+										"<td><b><i>"+rs.getString(2)+"</i></b></td>"+
+										"<td><b><i></i>"+rs.getString(3)+"</b></td>"+
+										"<td><b><i></i>"+rs.getString(4)+"</b></td>"+
+										"<td><b><i></i>"+rs.getString(5)+"</b></td></tr>");
 							}
+						}catch(ClassNotFoundException ex){
+							ex.printStackTrace();
+						} 
+						catch(Exception e){
+							Log.systemError(e.getMessage().toString());
+							e.printStackTrace();
+						}
+						finally{
+							try {
+								con.close();
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+						}
 						
+					
 						%>
+					
+					</tbody>
 				</table>
 			</div>
 			

@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Log"%>
 <%@page import="yapiPackage.Anket"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6,8 +7,8 @@
 	String username =(String)session.getAttribute("username");
 	String email = null;
 	int userid  =-1;
+	userid = (Integer)session.getAttribute("userid");
 	if(username==null || username.equals("")){
-		userid = (Integer)session.getAttribute("userid");
 		response.sendRedirect("KullaniciGiris.jsp");
 		return;
 	}
@@ -16,17 +17,43 @@
 		return;
 	}
 	int anketid;
+	Anket anketim = null;
 	try{
 		anketid = Integer.parseInt(request.getParameter("anketid"));
+		anketim = Anket.anketiGetir(anketid);
+		if(anketim==null)
+			return;
+		if(anketim.getKullaniciId()==userid){
+			
+			out.print("Kendi anketini şikayet edemezsin ! Çok saçma...");
+			return;
+		}
+		
 	}catch(Exception ex){
 		ex.printStackTrace();
+		Log.systemError(ex.getMessage().toString());
 		return;
 	}
-	Anket anketim = Anket.anketiGetir(anketid);
-	if(anketim.getKullaniciId()==userid){
-		out.print("Kendi anketini şikayet edemezsin ! Çok saçma...");
-		return;
+	String sikayetAciklama = request.getParameter("sikayetaciklama");
+	String sikayetsebebi = request.getParameter("sikayetsebep");
+	try{
+		if(sikayetAciklama==null && !sikayetAciklama.equals("") ){
+			out.println("Anket Aciklama giriniz");
+		}else{
+			if(sikayetsebebi==null && !sikayetsebebi.equals("")){
+				out.println("Anketin sikayet sebebini giriniz");
+			}else{
+				if(sikayetsebebi!=null && sikayetAciklama!=null)
+				Log.anketSikayet(sikayetsebebi+":"+sikayetAciklama);
+				out.println("Anket Sikayeti Basariyla Tamamlandı");
+				return;
+			}
+		}
+	}catch(Exception ex){
+		ex.printStackTrace();
 	}
+	
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

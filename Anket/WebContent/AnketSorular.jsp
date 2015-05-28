@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Log"%>
 <%@page import="yapiPackage.Kullanici"%>
 <%@page import="yapiPackage.Connections"%>
 <%@page import="java.util.ArrayList"%>
@@ -18,7 +19,6 @@
 	int userid  =-1;
 	if(username==null || username.equals("")){
 		response.sendRedirect("KullaniciGiris.jsp");
-		
 		return;
 	}else{
 		userid = (Integer)session.getAttribute("userid");
@@ -26,17 +26,18 @@
 	}
 	if(request.getParameter("anketid")==null){
 		response.sendRedirect("AnketGirisOlustur.jsp");
+		System.out.println("anketid null geldi");
 		return ;
 	}
-
 	int anketid = -1;
 	try{
-
 		anketid = Integer.parseInt(request.getParameter("anketid"));
-		response.sendRedirect("AnaSayfa.jsp");
-		return;
+		
 	}catch(Exception ex){
 		ex.printStackTrace();
+		Log.systemError(ex.getMessage().toString());
+		response.sendRedirect("AnaSayfa.jsp");
+		return;
 	}
 	Anket anket = Anket.anketiGetir(anketid); 
 	if(anket==null){
@@ -47,8 +48,9 @@
 		response.sendRedirect("Profil.jsp");
 		return;
 	}
-	if(anket.getAnketOzellik().getOzellikId()==2 && anket.getAnketOzellik().getOzellikDurum()==1){
-		response.sendRedirect("Anket?anketid="+anketid);
+	if(anket.aktiflikDurumunuGetir()){
+		response.sendRedirect("Anket.jsp?anketid="+anketid);
+		System.out.println("Anket aktif geldi");
 		return;
 	}
 	
@@ -62,11 +64,14 @@
 <link rel="stylesheet" href="hover.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
+sorusayisi = 0;
 function soruSil(id){
 	var element = document.getElementsByName("cevap"+id);
 	$(element).remove();
 	var elementbutton = document.getElementsByName("cevapsil"+id);
 	$(elementbutton).remove();
+	if(sorusayisi>0)
+		sorusayisi--;
 	secim--;
 }
 index = 1;
@@ -84,6 +89,7 @@ function yeniCevapEkle(){
 	$('#cevapbaslik6').append("<div><label><input name='cevap"+index+"'  style='color:black;' type='text'></label><label><button name='cevapsil"+index+"' type='button' id='soruyukaydet' onclick='soruSil(this.value);' value='"+index+"'>Sil</button></label></div>");	
 	  } 	
 	index++;
+	sorusayisi ++;
 	secim++;
 	$('#cevapindex').val(index);
 	
@@ -97,9 +103,9 @@ function soruTipiSecildiginde(){
 	  if(str=="Coklu Secim"){
 		  $('#cevapdiv').prepend("<div id='cevapbaslik5'>Cevaplar</div>");
 		  $('#cevapbaslik5').append("<div id='yenicevap'><button name='buttonyenicevap' type='button' id='buttonyenicevap' onclick='yeniCevapEkle();'>Yeni Cevap</button></div>");
-		  $("#yenicevap").prepend("<div id='max'>Max Seçilebilecek Seçenek Sayısı :<input name='maxsec' id='maxsec' style='color:black;'  type='text'></div>");
-		 $('#cevapyazi').remove(); 
+		  $('#cevapyazi').remove(); 
 		 $('#cevapbaslik6').remove(); 
+		 sorusayisi = 0;
 		 index = 1;
 		 secim=1;
 	  }else if(str == "Tekli Secim"){
@@ -108,6 +114,7 @@ function soruTipiSecildiginde(){
 		  $('#cevapyazi').remove(); 
 		  $('#cevapbaslik5').remove();
 		  index = 1;
+		  sorusayisi = 0;
 		  secim=1;
 	  }else if(str == "Yazi"){
 		  $('#cevapbaslik5').remove(); 
@@ -115,24 +122,11 @@ function soruTipiSecildiginde(){
 		  $('#cevapdiv').prepend("<div id ='cevapyazi'><label for='name'>Cevap Başlığını Giriniz : </label><input name='cevapbaslik' id='cevapbaslik' style='color:black;'  type='text' ></div>");
 		  $('#cevapyazi').append("<div id='kisitlama'>Kısıtlama : <select id='kisitlamalar' onchange='kisitlama()'><option value='SecimYAp'>Lütfen Bir Seçim Yapınız</option><option value='Yaz˝'>Yaz˝</option><option value='Say˝'>Say˝</option></select></div>");
 		  index = 1;
+		  sorusayisi =0;
 		  secim=1;
 	  }
 }
-function kisitlama(){
-	 var str ="";
-	  var value =  $('#kisitlamalar option:selected').each(function(){
-		  str += $( this ).text();  
-	  });
-	  soruTipiValue = str;
-	if(str=="Yaz˝"){
-		$('#lbl1').remove();
-		$('#kisitlama').append("<label id='lbl2'><input name='cevapbaslik' id='cevapbaslik1' style='color:black;'  type='text'>(KaÁ karakter s˝n˝r˝ olaca˝n˝ giriniz.)</label>");
-	}
-	if(str=="Say˝"){
-		$('#lbl2').remove();
-		$('#kisitlama').append("<label id='lbl1'><input name='cevapbaslik' id='cevapbaslik2' style='color:black;'  type='text'>(Alabilecei deer aral˝˝n˝ arada virg¸l kullanarak giriniz)</label>");
-	}
-}
+
 $(document).ready(function(){
 	$("#bilgiler").toggle();
 	$("#sorubilgileri").toggle();
@@ -153,6 +147,13 @@ function soruEkleKontrol(){
 	var soruYazisi = $("#soruyazisi").val();
 	if(soruYazisi==""){
 		alert("Soru Yazısı Boş Bırakılamaz");
+		return false;
+	}
+	if(sorusayisi==0){
+		alert("Hic cevap eklememissin...");
+		return false;
+	}else if(sorusayisi<3){
+		alert("En az 3 cevap eklemelisin ki anketin bir anlamı olsun");
 		return false;
 	}
 	// burada cevapların sayısı girilmiş mi girilmemiş mi kontrol edilcek vs vs.
@@ -238,7 +239,6 @@ function soruEkleKontrol(){
 			</div>
 		</div>
 		<button name="soruyukaydet" type="submit" id="soruyukaydet" onclick="">Soruyu Kaydet</button>
-		
 	</form>
 	</div>
 	<div>
@@ -249,7 +249,7 @@ function soruEkleKontrol(){
 			out.print("Ankete EN AZ 5 soru eklemelisiniz.");
 		}else{
 			out.print("<input type='hidden' name='anketid' value='"+anketid+"'>");	
-			out.print("<button type='submit' name='anketkayitet' style='width:100%;height:100px;>Anketi Kaydet</button>");
+			out.print("<button type='submit' name='anketkayitet' style='width:100%;height:100px'>Anketi Kaydet</button>");
 		}
 	%>
 	</form>

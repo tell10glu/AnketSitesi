@@ -80,6 +80,7 @@ public class Kategoriler {
 		}catch(ClassNotFoundException ex){
 			ex.printStackTrace();
 		} catch (SQLException e) {
+			Log.systemError(e.getMessage().toString());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

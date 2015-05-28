@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="yapiPackage.Soru"%>
 <%@page import="yapiPackage.Anket"%>
@@ -68,11 +69,18 @@ background: -moz-linear-gradient(top, white 0%, white 55%, #D5E4F3 130%);
 						System.out.println("anket size : "+lstAnket.size());
 							for(int i =0;i<lstAnket.size();i++){
 								Anket anketim = lstAnket.get(i);
-								String myout = "Anket.jsp?anketid="+String.valueOf(anketim.getId());
-								out.print("<tr>"+
-								"<td><b><i><a href ="+myout+">"+anketim.getAnketAdi()+"</a></i></b></td>"+
-								"<td><b><i>"+anketim.getKoyulmaTarihi()+"</i></b></td>"+
-								"<td><b><i>"+anketim.getBitisTarihi()+"</i></b></td></tr>");
+								if(anketim.aktiflikDurumunuGetir()){
+									String anketgoruntule = ":Anket devam ediyor";
+									if(anketim.getBitisTarihi().before(new Date())){
+										anketgoruntule = ":Sonuçları Görüntüle";
+										
+									}
+									String myout = "Anket.jsp?anketid="+String.valueOf(anketim.getId());
+									out.print("<tr>"+
+									"<td><b><i><a href ="+myout+">"+anketim.getAnketAdi()+" : "+anketgoruntule+"</a></b></td>"+
+									"<td><b>"+anketim.getKoyulmaTarihi()+"</b></td>"+
+									"<td><b>"+anketim.getBitisTarihi()+"</b></td></tr>");
+								}
 							}
 						
 						%>
@@ -95,11 +103,24 @@ background: -moz-linear-gradient(top, white 0%, white 55%, #D5E4F3 130%);
 						System.out.println(lstAnket.size());
 							for(int i =0;i<lstTumAnketler.size();i++){
 								Anket anketim = lstTumAnketler.get(i);
-								String myout = "Anket.jsp?anketid="+String.valueOf(anketim.getId());
-								out.print("<tr>"+
-								"<td><b><i><a href ="+myout+">"+anketim.getAnketAdi()+"</a></b></td>"+
-								"<td><b>"+anketim.getKoyulmaTarihi()+"</b></td>"+
-								"<td><b>"+anketim.getBitisTarihi()+"</b></td></tr>");
+								String anketgoruntule;
+								if(anketim.halkAcikDurumunuGetir()){
+									if(anketim.aktiflikDurumunuGetir()){
+										anketgoruntule = ":Anket devam ediyor";
+										if(anketim.getBitisTarihi().before(new Date())){
+											anketgoruntule = ":Sonuçları görüntüle";
+											
+										}
+										
+										String myout = "Anket.jsp?anketid="+String.valueOf(anketim.getId());
+										System.out.println(myout);
+										out.print("<tr>"+
+										"<td><b><i><a href ="+myout+">"+anketim.getAnketAdi()+anketgoruntule+"</a></b></td>"+
+										"<td><b>"+anketim.getKoyulmaTarihi()+"</b></td>"+
+										"<td><b>"+anketim.getBitisTarihi()+"</b></td></tr>");
+									}
+								}
+								
 							}
 						
 						%>

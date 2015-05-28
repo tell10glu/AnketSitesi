@@ -119,6 +119,7 @@ public class Soru {
 		} 
 		catch(Exception e){
 			e.getMessage();
+			Log.systemError(e.getMessage().toString());
 		}
 		finally{
 			try {
@@ -147,6 +148,7 @@ public class Soru {
 		} 
 		catch(Exception e){
 			e.getMessage();
+			Log.systemError(e.getMessage().toString());
 		}
 		finally{
 			try {

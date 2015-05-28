@@ -1,3 +1,4 @@
+<%@page import="yapiPackage.Log"%>
 <%@page import="yapiPackage.Connections"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.ResultSet"%>
@@ -44,6 +45,7 @@ try{
         response.sendRedirect("AnketSorular.jsp?anketid="+anketid);
 	
 }catch(Exception ex){
+	Log.systemError(ex.getMessage().toString());
 	ex.printStackTrace();
 }finally{
 	con.close();
